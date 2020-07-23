@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>Your Profile</title>
+    </head>
+    <body>
+      <h1>Community Events Board</h1>
+      <div class="event-list">
+        <ul>
+          {% for song in songs %}
+            <li>{{ song.song }} - {{ song.artist }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <h1 style="text-align:center; color:greenyellow">Add a new song</h1>
+        <form method="post" action="/profile" style="text-align:center">
+            <input type="text" name="artist" placeholder="Enter the name of your artist."/ size="50">
+            <input type="text" name="song" placeholder="Enter the name of your song."/ size="50">
+            <input type="submit" value="Submit"/>
+        </form>
+    </body>
+</html>
