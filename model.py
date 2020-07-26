@@ -1,5 +1,10 @@
 import match_score
 
+from flask import Flask
+from flask import render_template
+from flask import request
+from flask_pymongo import PyMongo
+
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
@@ -8,6 +13,17 @@ secret = '8100126adef24003b819e136fbc13afe'
 client_credentials_manager = SpotifyClientCredentials(
     client_id=cid, client_secret=secret)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+# -- Initialization section --
+app = Flask(__name__)
+
+# name of database
+app.config['MONGO_DBNAME'] = 'playlist'
+
+# URI of database
+app.config['MONGO_URI'] = 'mongodb+srv://admin:xOCwocN6xNvzPPSB@cluster0.vlksj.mongodb.net/playlist?retryWrites=true&w=majority'
+
+mongo = PyMongo(app)
 
 #Returns the top 10 tracks from an artist based on artist name parameter
 def get_top_tracks(artist): 
@@ -65,3 +81,27 @@ def id_to_song(id_list):
         song_list.append({"track_name": track_name, "track_artists": track_artists, "artist_genres": artist_genres, "track_album_name": track_album_name, "album_art_url": album_art_url})
     return song_list
 #print(search_for_track("I am a God"))
+
+
+
+#Checks to see if an existing profile has the same username or email. If not, creates a new account. 
+def sign_up(username, email, password):
+    collection = mongo.db.profile
+    profiles = collection.find({})
+    for profile in profiles:
+        print(profile)
+        if(profile["username"] == username or profile["email"] == email):
+            return "Error"
+    collection.insert({"username": username, "password": password, "email": email, "name": "John Smith","bio": "I am feeling good", "song_ids": ["temp", "temp2"]})
+
+
+#Checks to see if an existing profile has the same username and password. If so, returns success. 
+def sign_in(username, password):
+    collection = mongo.db.profile
+    profiles = collection.find({})
+    for profile in profiles:
+        print(profile)
+        if(profile["username"] == username and profile["password"] == password):
+            return "Success"
+        else:
+            return "Error"
