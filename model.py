@@ -1,5 +1,8 @@
+import match_score
+
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+
 cid = '2aec1864fdb0443da8ea4f23b250f72b'
 secret = '8100126adef24003b819e136fbc13afe'
 client_credentials_manager = SpotifyClientCredentials(
@@ -62,6 +65,3 @@ def id_to_song(id_list):
         song_list.append({"track_name": track_name, "track_artists": track_artists, "artist_genres": artist_genres, "track_album_name": track_album_name, "album_art_url": album_art_url})
     return song_list
 #print(search_for_track("I am a God"))
-
-
-

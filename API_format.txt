@@ -1,0 +1,35 @@
+This API dict format filtered by name = "Taylor Swift" which is why only Taylor Swift's profiles are here
+{
+    'artists': 
+        {
+            'href': 'https://api.spotify.com/v1/search?query=artist%3ATaylor+Swift&type=artist&offset=0&limit=10', 
+            'items': 
+                [
+                    {
+                        'external_urls': {'spotify': 'https://open.spotify.com/artist/06HL4z0CvFAxyc27GXpf02'}, 
+                        'followers': {'href': None, 'total': 30752858}, 
+                        'genres': ['dance pop', 'pop', 'post-teen pop'], 
+                        'href': 'https://api.spotify.com/v1/artists/06HL4z0CvFAxyc27GXpf02', 
+                        'id': '06HL4z0CvFAxyc27GXpf02', 
+                        'images': [{'height': 640, 'url': 'https://i.scdn.co/image/62b33d12e2b9a033cf77585f6e3d4b2c6b3a63a1', 'width': 640}, {'height': 320, 'url': 'https://i.scdn.co/image/9ab124f3323d161f87fc9b7f8b82ab1717483b3a', 'width': 320}, {'height': 160, 'url': 'https://i.scdn.co/image/d28b46cd7e1b7336d1688d462085535963a77311', 'width': 160}], 
+                        'name': 'Taylor Swift', 'popularity': 91, 'type': 'artist', 'uri':'spotify:artist:06HL4z0CvFAxyc27GXpf02'    
+                    }, 
+                    {
+                        'external_urls': {'spotify': 'https://open.spotify.com/artist/5WiLThuSBwqF7SMRrzQbG6'}, 
+                        'followers': {'href': None, 'total': 108}, 
+                        'genres': [], 
+                        'href': 'https://api.spotify.com/v1/artists/5WiLThuSBwqF7SMRrzQbG6', 
+                        'id': '5WiLThuSBwqF7SMRrzQbG6', 
+                        'images': [{'height': 640, 'url': 'https://i.scdn.co/image/ab67616d0000b273a01a363658b885efc18b065c', 'width': 640}, {'height': 300, 'url': 'https://i.scdn.co/image/ab67616d00001e02a01a363658b885efc18b065c', 'width': 300}, {'height': 64, 'url': 'https://i.scdn.co/image/ab67616d00004851a01a363658b885efc18b065c', 'width': 64}], 
+                        'name': 'Taylor Swiftman', 
+                        'popularity': 15, 
+                        'type': 'artist', 
+                        'uri': 'spotify:artist:5WiLThuSBwqF7SMRrzQbG6'}
+                ], 
+            'limit': 10, 
+            'next': None, 
+            'offset': 0, 
+            'previous': None, 
+            'total': 2
+        }
+}

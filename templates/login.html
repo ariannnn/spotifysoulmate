@@ -11,22 +11,18 @@
     <title>[HomePage]</title>
   </head>
   <body>
-  <form class="form-signin">
+  <form method = "post" class="form-signin" action = "appsites/overview">
       <div class="text-center mb-4
-        <h1 class="h3 mb-3 font-weight-normal">Sign Up</h1>
+        <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
       </div>
 
       <div class="form-label-group">
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-        <label for="inputEmail"></label>
-      </div>
-      <div class="form-label-group">
-        <input type="email" id="inputName" class="form-control" placeholder="Full Name" required="" autofocus="">
+        <input type="email" name = "inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
         <label for="inputEmail"></label>
       </div>
 
       <div class="form-label-group">
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+        <input type="password" name = "inputPassword" id="inputPassword" class="form-control" placeholder="Password" required="">
         <label for="inputPassword"></label>
       </div>
 
@@ -35,10 +31,12 @@
           <input type="checkbox" value="remember-me"> Remember me
         </label>
       </div>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      Already have an account?  <a href = "login.html"> Sign in!</a>
+      <button class="btn btn-lg btn-primary btn-block" type="submit" >Sign in</button>
+      Don't have an account?  <a href = "/signup"> Sign up!</a>
         <p class="mt-5 mb-3 text-muted text-center">© 2020</p>
-
+        <p class = "mt-5 text-center">
+          <a href = "/index" class = "mt-5 text-center" > Return to Home </a>
+        </p>
 
 
       </o>
