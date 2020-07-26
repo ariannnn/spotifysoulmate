@@ -23,8 +23,11 @@ mongo = PyMongo(app)
 # INDEX
 
 @app.route('/')
-@app.route('/index')
+@app.route('/index', methods = ["GET", "POST"])
 def index():
+    global user_email
+    if request.method == "POST":
+        user_email = ""
     return render_template("index.html")
 
 @app.route('/profile', methods=["GET", "POST"])
@@ -64,7 +67,13 @@ def signup():
 
 @app.route("/overview")
 def overview():
-    return render_template("appsites/overview.html")
+    global user_email
+    user_dict = model.get_user_info(user_email)
+    name = user_dict["name"]
+    bio = user_dict["bio"]
+    song_ids = user_dict["song_ids"] #gives a list
+    list_of_songs = model.id_to_song(song_ids) #gives a list of dictionaries
+    return render_template("appsites/overview.html", list_of_songs = list_of_songs)
 
 @app.route('/soulmates')
 def soulmates():
@@ -76,21 +85,30 @@ def help():
 
 @app.route('/sign_in', methods = ["GET", "POST"])
 def user_signin():
+    global user_email #stores the unique identifier of the user so we can use it to access their playlists, songs, etc
     email = request.form["inputEmail"]
     password = request.form["inputPassword"]
-    print(model.sign_in(email, password))
+    user_email = email
+    user_dict = model.get_user_info(user_email)
+    name = user_dict["name"]
+    bio = user_dict["bio"]
+    song_ids = user_dict["song_ids"] #gives a list
+    list_of_songs = model.id_to_song(song_ids) #gives a list of dictionaries
     if (model.sign_in(email, password) == 0):
-        return render_template("appsites/overview.html")
+        user_email = email
+        return render_template("appsites/overview.html", list_of_songs = list_of_songs)
     else:
         return render_template("login.html")
 
 @app.route('/store_users', methods=["GET", "POST"])
 def store_users(): #this is the route for how the user creates an account
+    global user_email #stores the unique identifier of the user so we can use it to access their playlists, songs, etc
     if request.method == "POST":
         name = request.form["inputName"]
         email = request.form["inputEmail"]
         password = request.form["inputPassword"]
         if (model.sign_up(name, email, password) == 0):
+            user_email = email
             return render_template("appsites/overview.html")
         else:
             return render_template("signup.html")

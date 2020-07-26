@@ -108,3 +108,12 @@ def sign_in(email, password):
         if(profile["email"] == email and profile["password"] == password):
             if_in_database = 0
     return if_in_database
+
+def get_user_info(email):
+    collection = mongo.db.profile
+    profiles = collection.find({})
+    user_info = {"password":"", "email":"", "name":"", "bio":"", "song_ids":[]}
+    for profile in profiles:
+        if(profile["email"] == email):
+            user_info = profile
+    return user_info
