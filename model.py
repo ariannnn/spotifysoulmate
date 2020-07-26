@@ -4,6 +4,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask_pymongo import PyMongo
+import requests
 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -18,10 +19,10 @@ sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 app = Flask(__name__)
 
 # name of database
-app.config['MONGO_DBNAME'] = 'playlist'
+app.config['MONGO_DBNAME'] = 'users'
 
 # URI of database
-app.config['MONGO_URI'] = 'mongodb+srv://admin:xOCwocN6xNvzPPSB@cluster0.vlksj.mongodb.net/playlist?retryWrites=true&w=majority'
+app.config['MONGO_URI'] = 'mongodb+srv://admin:xOCwocN6xNvzPPSB@cluster0.vlksj.mongodb.net/users?retryWrites=true&w=majority'
 
 mongo = PyMongo(app)
 
@@ -85,23 +86,25 @@ def id_to_song(id_list):
 
 
 #Checks to see if an existing profile has the same username or email. If not, creates a new account. 
-def sign_up(username, email, password):
+def sign_up(name, email, password):
     collection = mongo.db.profile
     profiles = collection.find({})
     for profile in profiles:
-        print(profile)
-        if(profile["username"] == username or profile["email"] == email):
-            return "Error"
-    collection.insert({"username": username, "password": password, "email": email, "name": "John Smith","bio": "I am feeling good", "song_ids": ["temp", "temp2"]})
+        #print(profile)
+        if(profile["email"] == email):
+            return -1
+    collection.insert({"password": password, "email": email, "name": name,"bio": "I am feeling good", "song_ids": ["temp", "temp2"]})
+    return 0
 
+#sign_up("Dyl", "dyl@g", "abc")
 
 #Checks to see if an existing profile has the same username and password. If so, returns success. 
-def sign_in(username, password):
+def sign_in(email, password):
     collection = mongo.db.profile
     profiles = collection.find({})
+    if_in_database = -1
     for profile in profiles:
-        print(profile)
-        if(profile["username"] == username and profile["password"] == password):
-            return "Success"
-        else:
-            return "Error"
+        #print(profile)
+        if(profile["email"] == email and profile["password"] == password):
+            if_in_database = 0
+    return if_in_database
