@@ -157,14 +157,39 @@ def match_percentage(total_score, max_score):
 
 #returns how much the matching songs in p1 and p2 contributed to the match_percentage.
 #for example, if match_percentage outputted 50%, and half of that 50% came from songs, then song_percentage would be 25%
-def song_percentage(song_score, total_score, match_percentage):
+#the parameters are just to remind the user they should run one of the match functions before running the percentage functions ig. They're not rlly necessary tho
+def song_percentage(song_score, total_score):
     return str(round(song_score / max_score * 100, 2)) + "%"
 
-def artist_percentage(artist_score, total_score, match_percentage):
+def artist_percentage(artist_score, total_score):
     return str(round(artist_score / max_score * 100, 2)) + "%"
 
-def genre_percentage(genre_score, total_score, match_percentage):
+def genre_percentage(genre_score, total_score):
     return str(round(genre_score / max_score * 100, 2)) + "%"
+
+#takes in two playlists and one string. The string match_method will either be "song", "artist", or "genre".
+#Playlists need 80% or more match percentage to return True.
+def is_matching(p1, p2, match_method):
+    if match_method == "song":
+        match_score_by_song(p1, p2)
+        if (total_score / max_score * 100 >= 80):
+            return True
+        else:
+            return False
+    elif match_method == "artist":
+        match_score_by_artist(p1, p2)
+        if (total_score / max_score * 100 >= 80):
+            return True
+        else:
+            return False
+    elif match_method == "genre":
+        match_score_by_genre(p1, p2)
+        if (total_score / max_score * 100 >= 80):
+            return True
+        else:
+            return False
+    else:
+        return "Input a valid 'match_method' string."
 
 
 # #test cases
@@ -191,14 +216,14 @@ p3 = [
 # print(match_score_by_genre(p1,p2))
 # match_percentage = match_percentage(total_score, max_score) 
 # print(match_percentage)
-# print(song_percentage(song_score, total_score, match_percentage)) 
-# print(artist_percentage(artist_score, total_score, match_percentage))
-# print(genre_percentage(genre_score, total_score, match_percentage))
+# print(song_percentage(song_score, total_score)) 
+# print(artist_percentage(artist_score, total_score))
+# print(genre_percentage(genre_score, total_score))
 
 # print(match_score_by_song(p1, p2))
 # match_percentage = match_percentage(total_score, max_score) 
 # print(match_percentage)
-# print(song_percentage(song_score, total_score, match_percentage)) 
-# print(artist_percentage(artist_score, total_score, match_percentage)) 
-# print(genre_percentage(genre_score, total_score, match_percentage))
+# print(song_percentage(song_score, total_score)) 
+# print(artist_percentage(artist_score, total_score)) 
+# print(genre_percentage(genre_score, total_score))
 
