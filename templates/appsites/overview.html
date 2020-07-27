@@ -39,9 +39,17 @@
             </form>
 		</div>
 	</nav>
+	<br />
+ <!-- Profile Section -->
+ <div class = "ml-3" id = profile>
 
+
+ <h4> [PROFILE PIC] + [INPUT NAME HERE]</h4>
+ <h6> [Input Bio]</h6>
+</div>
 	<!-- Searchbar Section -->
-	<div class="p-1 w-50 bg-light rounded rounded-pill shadow-sm mb-4">
+	<br />
+	<div class=" ml-3 p-1 w-50 bg-light rounded rounded-pill shadow-sm mb-4">
             <div class="input-group">
               <input type="search" placeholder="Search for an artist or song" aria-describedby="button-addon2" class="form-control border-0 bg-light">
               <button type = "submit" class = "btn"> Search </button>
@@ -49,8 +57,8 @@
           </div>
     <br>
     <!-- Listing favorite tracks -->
-    <h3> Your Favorites </h3>
-	<div>
+	<div class = ml-3>
+		<h3> Your Favorites </h3>
 		{% for song_dict in list_of_songs %}
 		<p>{{ song_dict["track_name"] }}</p>
 		{% endfor %}
