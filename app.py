@@ -115,6 +115,20 @@ def store_users(): #this is the route for how the user creates an account
     else:
         return "Error: Try using the create an account link instead of manually entering the URL."
 
+@app.route("/search", methods = ["GET", "POST"])
+def search():
+    if request.method == "POST":
+        search_query = request.form["query"]
+        song_ids = model.search_for_track(search_query) #gives a list of 10 song_ids that have similar names to the search query
+        songs_found = model.id_to_song(song_ids) #gives a list of dictionaries
+        return render_template("appsites/overview.html", songs_found = songs_found)
+    else:
+        return "Error. Search for a song using the button, not by manually typing in the URL."
+
+@app.route("/addsong")
+def addsong():
+    
+
 @app.route("/test", methods = ["GET","POST"])
 def test():
     collection = mongo.db.profile
@@ -125,3 +139,5 @@ def test():
         collection.insert({"message":message})
         print(collection.find({}))
     return render_template("test.html")
+
+# FYI on passwords - a student at another bank site just discovered documentation for bcrypt.checkpw() function that takes 2 arguments - the pw from the form and the pw from the database and returns True if they work!

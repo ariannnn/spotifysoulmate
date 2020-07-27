@@ -93,7 +93,7 @@ def sign_up(name, email, password):
         #print(profile)
         if(profile["email"] == email):
             return -1
-    collection.insert({"password": password, "email": email, "name": name,"bio": "I am feeling good", "song_ids": ["temp", "temp2"]})
+    collection.insert({"password": password, "email": email, "name": name,"bio": "I am feeling good", "song_ids": []})
     return 0
 
 #sign_up("Dyl", "dyl@g", "abc")

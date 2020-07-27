@@ -9,55 +9,66 @@
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-	<link rel = "stylesheet" href = "../../static/css/style.css" />
+	<link rel="stylesheet" href="../../static/css/style.css" />
 	<title>Dashboard</title>
 </head>
 
 <body>
 	<nav class="navbar navcolor navbar-expand-lg">
-		<a class="navbar-brand" href="#"><img src = {{ url_for('static', filename='Untitled-1.png') }} width = "125"  /></a>
-		<button class=" navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<a class="navbar-brand"
+			href="#"><img src = {{ url_for('static', filename='Untitled-1.png') }} width = "125"  /></a>
+			<button class=" navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item active">
-					<a class="nav-link" href="/overview">Overview</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/soulmates">Find Soulmates</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/help">Help</a>
-				</li>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="/overview">Overview</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/soulmates">Find Soulmates</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/help">Help</a>
+					</li>
 
-			</ul>
-			<!-- <a href="../index" class="btn btn-outline-success ml-lg-4 my-sm-2">Log Out</a> -->
-			<form method="post" action="/index">
-				<input type = "submit" value = "Log Out" class = "btn btn-outline-success ml-lg-4 my-sm-2"/>
+				</ul>
+				<!-- <a href="../index" class="btn btn-outline-success ml-lg-4 my-sm-2">Log Out</a> -->
+				<form method="post" action="/index">
+					<input type = "submit" value = "Log Out" class = "btn btn-outline-success ml-lg-4 my-sm-2"/>
             </form>
-		</div>
+			</div>
 	</nav>
 	<br />
- <!-- Profile Section -->
- <div class = "ml-3" id = profile>
+	<!-- Profile Section -->
+	<div class="ml-3" id=profile>
 
 
- <h4> [PROFILE PIC] + [INPUT NAME HERE]</h4>
- <h6> [Input Bio]</h6>
-</div>
+		<h4> [PROFILE PIC] + [INPUT NAME HERE]</h4>
+		<h6> [Input Bio]</h6>
+	</div>
 	<!-- Searchbar Section -->
 	<br />
 	<div class=" ml-3 p-1 w-50 bg-light rounded rounded-pill shadow-sm mb-4">
-            <div class="input-group">
-              <input type="search" placeholder="Search for an artist or song" aria-describedby="button-addon2" class="form-control border-0 bg-light">
-              <button type = "submit" class = "btn"> Search </button>
-            </div>
-          </div>
+		<div class="input-group">
+			<form method = "post" action = "/search">
+                <input type="search" name = "query" placeholder="Search for an artist or song" aria-describedby="button-addon2" class="form-control border-0 bg-light">
+                <button type = "submit" class = "btn"> Search </button>
+            </form>
+		</div>
+	</div>
+	<br>
+    <!-- Listing songs searched -->
+	<div class=ml-3>
+		<h3> Songs Searched </h3>
+		{% for song_dict in songs_found %}
+		<p>{{ song_dict["track_name"] }} - <a href = "/addsong" name = "{{song_dict["track_name"]}}">Add</a> </p>
+		{% endfor %}
+	</div>
     <br>
-    <!-- Listing favorite tracks -->
-	<div class = ml-3>
+	<!-- Listing favorite tracks -->
+	<div class=ml-3>
 		<h3> Your Favorites </h3>
 		{% for song_dict in list_of_songs %}
 		<p>{{ song_dict["track_name"] }}</p>
