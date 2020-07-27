@@ -41,14 +41,15 @@
 	</nav>
 
 	<!-- Searchbar Section -->
-	<div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
+	<div class="p-1 w-50 bg-light rounded rounded-pill shadow-sm mb-4">
             <div class="input-group">
-              <div class="input-group-prepend">
-                <button id="button-addon2" type="submit" class="btn btn-link text-warning"><i class="fa fa-search"></i></button>
-              </div>
               <input type="search" placeholder="Search for an artist or song" aria-describedby="button-addon2" class="form-control border-0 bg-light">
+              <button type = "submit" class = "btn"> Search </button>
             </div>
           </div>
+    <br>
+    <!-- Listing favorite tracks -->
+    <h3> Your Favorites </h3>
 	<div>
 		{% for song_dict in list_of_songs %}
 		<p>{{ song_dict["track_name"] }}</p>
