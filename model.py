@@ -79,35 +79,9 @@ def id_to_song(id_list):
         for artist_id in track_artists:
             for genre in sp.artist(artist_id[1])["genres"]:
                 artist_genres.append(genre)
-        song_list.append({"track_name": track_name, "track_artists": track_artists, "artist_genres": artist_genres, "track_album_name": track_album_name, "album_art_url": album_art_url})
+        song_list.append({"track_name": track_name, "track_artists": track_artists, "artist_genres": artist_genres, "track_album_name": track_album_name, "album_art_url": album_art_url, "song_id": id_})
     return song_list
 #print(search_for_track("I am a God"))
-
-
-
-#Checks to see if an existing profile has the same username or email. If not, creates a new account. 
-def sign_up(name, email, password):
-    collection = mongo.db.profile
-    profiles = collection.find({})
-    for profile in profiles:
-        #print(profile)
-        if(profile["email"] == email):
-            return -1
-    collection.insert({"password": password, "email": email, "name": name,"bio": "I am feeling good", "song_ids": []})
-    return 0
-
-#sign_up("Dyl", "dyl@g", "abc")
-
-#Checks to see if an existing profile has the same username and password. If so, returns success. 
-def sign_in(email, password):
-    collection = mongo.db.profile
-    profiles = collection.find({})
-    if_in_database = -1
-    for profile in profiles:
-        #print(profile)
-        if(profile["email"] == email and profile["password"] == password):
-            if_in_database = 0
-    return if_in_database
 
 def get_user_info(email):
     collection = mongo.db.profile

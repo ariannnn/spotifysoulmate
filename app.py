@@ -30,7 +30,6 @@ mongo = PyMongo(app)
 @app.route('/')
 @app.route('/index', methods = ["GET", "POST"])
 def index():
-    global user_email
     if request.method == "POST":
         user_email = ""
     return render_template("index.html")
@@ -72,56 +71,73 @@ def signup():
 
 @app.route("/overview")
 def overview():
-    global user_email
-    user_dict = model.get_user_info(user_email)
-    name = user_dict["name"]
-    bio = user_dict["bio"]
-    song_ids = user_dict["song_ids"] #gives a list
-    list_of_songs = model.id_to_song(song_ids) #gives a list of dictionaries
-    return render_template("appsites/overview.html", list_of_songs = list_of_songs)
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        list_of_songs = model.id_to_song(session["song_ids"]) #gives a list of dictionaries
+        return render_template("appsites/overview.html", list_of_songs = list_of_songs)
 
 @app.route('/soulmates')
 def soulmates():
-    return render_template("appsites/soulmates.html")
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        return render_template("appsites/soulmates.html")
 
 @app.route('/help')
 def help():
-    return render_template("appsites/help.html")
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        return render_template("appsites/help.html")
 
 @app.route('/sign_in', methods = ["GET", "POST"])
 def user_signin():
+    global email
     session.clear()
-    email = request.form["inputEmail"]
-    password = request.form["inputPassword"]
-    collection = mongo.db.profile
-    user = list(collection.find({"email": email}))
-    if (len(user) == 0):
-        print("hello")
-        return render_template("login.html")
-    elif bcrypt.hashpw(password.encode('utf-8'), user[0]['password'].encode('utf-8')) == user[0]["password"].encode('utf-8'):
-        session["email"] = user[0]["email"]
-        session["name"] = user[0]["name"]
-        session["bio"] = user[0]["bio"]
-        session["song_ids"] = user[0]["song_ids"]
-        return render_template("appsites/overview.html")
+    if request.method == "POST":
+        email = request.form["inputEmail"]
+        password = request.form["inputPassword"]
+        collection = mongo.db.profile
+        user = list(collection.find({"email": email}))
+        if (len(user) == 0):
+            print("hello")
+            return render_template("login.html")
+        elif bcrypt.hashpw(password.encode('utf-8'), user[0]['password'].encode('utf-8')) == user[0]["password"].encode('utf-8'):
+            session["email"] = user[0]["email"]
+            session["name"] = user[0]["name"]
+            session["bio"] = user[0]["bio"]
+            session["song_ids"] = user[0]["song_ids"]
+            list_of_songs = model.id_to_song(session["song_ids"]) #gives a list of dictionaries
+            return render_template("appsites/overview.html", list_of_songs = list_of_songs)
+        else:
+            return render_template("login.html")
     else:
         return render_template("login.html")
 
 @app.route('/store_users', methods=["GET", "POST"])
 def store_users(): #this is the route for how the user creates an account
-    name = request.form["inputName"]
-    email = request.form["inputEmail"]
-    password = request.form["inputPassword"]
-    collection = mongo.db.profile
-    user = list(collection.find({"email": email}))
-    if (len(user) == 0):
-        collection.insert({"password": str(bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()), 'utf-8'), "email": email, "name": name,"bio": "I am feeling good", "song_ids": []})
+    global email
+    if request.method == "POST":
+        name = request.form["inputName"]
+        email = request.form["inputEmail"]
+        password = request.form["inputPassword"]
+        collection = mongo.db.profile
         user = list(collection.find({"email": email}))
-        session["email"] = user[0]["email"]
-        session["name"] = user[0]["name"]
-        session["bio"] = user[0]["bio"]
-        session["song_ids"] = user[0]["song_ids"]
-        return render_template("appsites/overview.html")
+        if (len(user) == 0):
+            collection.insert({"password": str(bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()), 'utf-8'), "email": email, "name": name,"bio": "I am feeling good", "song_ids": []})
+            user = list(collection.find({"email": email}))
+            session["email"] = user[0]["email"]
+            session["name"] = user[0]["name"]
+            session["bio"] = user[0]["bio"]
+            session["song_ids"] = user[0]["song_ids"]
+            list_of_songs = model.id_to_song(session["song_ids"])
+            return render_template("appsites/overview.html", list_of_songs = list_of_songs)
+        else:
+            return render_template("signup.html")
     else:
         return render_template("signup.html")
 
