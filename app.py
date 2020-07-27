@@ -125,9 +125,9 @@ def search():
     else:
         return "Error. Search for a song using the button, not by manually typing in the URL."
 
-@app.route("/addsong")
-def addsong():
-    
+# @app.route("/addsong")
+# def addsong():
+#     user_email
 
 @app.route("/test", methods = ["GET","POST"])
 def test():
