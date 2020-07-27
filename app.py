@@ -6,16 +6,21 @@ from flask import request
 from flask_pymongo import PyMongo
 import model
 import requests
+from flask import session
+import bcrypt
+from flask import redirect, url_for
 
 #don't forget to "pip3 install spotipy" and "sudo pip3 install dnspython" if you haven't already
 # -- Initialization section --
 app = Flask(__name__)
 
+app.secret_key = "kj3klmr13asd"
 # name of database
-app.config['MONGO_DBNAME'] = 'playlist'
+app.config['MONGO_DBNAME'] = 'users'
 
 # URI of database
-app.config['MONGO_URI'] = 'mongodb+srv://admin:xOCwocN6xNvzPPSB@cluster0.vlksj.mongodb.net/playlist?retryWrites=true&w=majority'
+app.config['MONGO_URI'] = 'mongodb+srv://admin:xOCwocN6xNvzPPSB@cluster0.vlksj.mongodb.net/users?retryWrites=true&w=majority'
+
 
 mongo = PyMongo(app)
 
@@ -85,35 +90,40 @@ def help():
 
 @app.route('/sign_in', methods = ["GET", "POST"])
 def user_signin():
-    global user_email #stores the unique identifier of the user so we can use it to access their playlists, songs, etc
+    session.clear()
     email = request.form["inputEmail"]
     password = request.form["inputPassword"]
-    user_email = email
-    user_dict = model.get_user_info(user_email)
-    name = user_dict["name"]
-    bio = user_dict["bio"]
-    song_ids = user_dict["song_ids"] #gives a list
-    list_of_songs = model.id_to_song(song_ids) #gives a list of dictionaries
-    if (model.sign_in(email, password) == 0):
-        user_email = email
-        return render_template("appsites/overview.html", list_of_songs = list_of_songs)
+    collection = mongo.db.profile
+    user = list(collection.find({"email": email}))
+    if (len(user) == 0):
+        print("hello")
+        return render_template("login.html")
+    elif bcrypt.hashpw(password.encode('utf-8'), user[0]['password'].encode('utf-8')) == user[0]["password"].encode('utf-8'):
+        session["email"] = user[0]["email"]
+        session["name"] = user[0]["name"]
+        session["bio"] = user[0]["bio"]
+        session["song_ids"] = user[0]["song_ids"]
+        return render_template("appsites/overview.html")
     else:
         return render_template("login.html")
 
 @app.route('/store_users', methods=["GET", "POST"])
 def store_users(): #this is the route for how the user creates an account
-    global user_email #stores the unique identifier of the user so we can use it to access their playlists, songs, etc
-    if request.method == "POST":
-        name = request.form["inputName"]
-        email = request.form["inputEmail"]
-        password = request.form["inputPassword"]
-        if (model.sign_up(name, email, password) == 0):
-            user_email = email
-            return render_template("appsites/overview.html")
-        else:
-            return render_template("signup.html")
+    name = request.form["inputName"]
+    email = request.form["inputEmail"]
+    password = request.form["inputPassword"]
+    collection = mongo.db.profile
+    user = list(collection.find({"email": email}))
+    if (len(user) == 0):
+        collection.insert({"password": str(bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()), 'utf-8'), "email": email, "name": name,"bio": "I am feeling good", "song_ids": []})
+        user = list(collection.find({"email": email}))
+        session["email"] = user[0]["email"]
+        session["name"] = user[0]["name"]
+        session["bio"] = user[0]["bio"]
+        session["song_ids"] = user[0]["song_ids"]
+        return render_template("appsites/overview.html")
     else:
-        return "Error: Try using the create an account link instead of manually entering the URL."
+        return render_template("signup.html")
 
 @app.route("/search", methods = ["GET", "POST"])
 def search():
