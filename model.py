@@ -35,7 +35,6 @@ def get_top_tracks(artist):
     for track in results["tracks"][:10]:
         top_tracks.append(track["id"],)
     return top_tracks
-# print(get_top_tracks("kanye"))
 
 #Returns 10 tracks from an artist based on artist name parameter
 def search_for_artist(artist):
@@ -44,7 +43,6 @@ def search_for_artist(artist):
     for track in data["artists"]["items"]:
         top_10_ids.append(track["id"])
     return top_10_ids
-# print(search_for_artist("kanye"))
 
 #Returns all the songs in an album based on album name parameter
 def search_for_album(album):
@@ -56,22 +54,15 @@ def search_for_album(album):
         album_track_ids.append(track["id"])
     return album_track_ids
 
+#Returns a list of songs that match the track name and artist name paramters. (updated)
 def search_for_track_and_artist(track, artist):
-    top_10_ids_track = []
-    data = sp.search(q="track:" + track, limit = 35, type="track")
-    for track in data["tracks"]["items"]:
-        top_10_ids_track.append(track["id"])
-    top_10_artist_names = []
-    data = sp.search(q="artist:" + artist, limit = 10, type="artist")
-    for track in data["artists"]["items"]:
-        top_10_artist_names.append(track["id"])
-    top_10_ids = []
-    for track in id_to_song(top_10_ids_track):
-        track_artists = track["track_artists"]
-        for artist in track_artists:
-            if artist[1] in top_10_artist_names:
-                top_10_ids.append(track["song_id"])
-    return top_10_ids
+    data_tracks = sp.search(q="track:" + track, limit = 35, type="track")
+    result = []
+    for track in data_tracks["tracks"]["items"]:
+        for artist_dict in track["artists"]:
+            if artist_dict["id"] in search_for_artist(artist):
+                result.append(track["id"])
+    return result
 
 #Returns 10 similarly-named tracks based on track name parameter
 def search_for_track(track):
@@ -80,6 +71,7 @@ def search_for_track(track):
     for track in data["tracks"]["items"]:
         top_10_ids.append(track["id"])
     return top_10_ids
+
 
 #Converts a list of track IDs to a dictionary
 def id_to_song(id_list):
@@ -98,7 +90,6 @@ def id_to_song(id_list):
                 artist_genres.append(genre)
         song_list.append({"track_name": track_name, "track_artists": track_artists, "artist_genres": artist_genres, "track_album_name": track_album_name, "album_art_url": album_art_url, "song_id": id_})
     return song_list
-#print(search_for_track("I am a God"))
 
 def get_user_info(email):
     collection = mongo.db.profile
