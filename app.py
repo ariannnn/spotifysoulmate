@@ -70,6 +70,10 @@ def overview():
         session.clear()
         return render_template("login.html")
     else:
+        collection = mongo.db.profile
+        user = list(collection.find({"email": session["email"]}))[0]
+        songs = user["song_ids"]
+        session["song_ids"] = songs
         list_of_songs = model.id_to_song(session["song_ids"]) #gives a list of dictionaries
         return render_template("overview.html", list_of_songs = list_of_songs)
 
