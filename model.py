@@ -56,6 +56,23 @@ def search_for_album(album):
         album_track_ids.append(track["id"])
     return album_track_ids
 
+def search_for_track_and_artist(track, artist):
+    top_10_ids_track = []
+    data = sp.search(q="track:" + track, limit = 25, type="track")
+    for track in data["tracks"]["items"]:
+        top_10_ids_track.append(track["id"])
+    top_10_artist_names = []
+    data = sp.search(q="artist:" + artist, limit = 25, type="artist")
+    for track in data["artists"]["items"]:
+        top_10_artist_names.append(track["id"])
+    top_10_ids = []
+    for track in id_to_song(top_10_ids_track):
+        track_artists = track["track_artists"]
+        for artist in track_artists:
+            if artist[1] in top_10_artist_names:
+                top_10_ids.append(track["song_id"])
+    return top_10_ids
+
 #Returns 10 similarly-named tracks based on track name parameter
 def search_for_track(track):
     top_10_ids = []

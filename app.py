@@ -6,6 +6,7 @@ from flask import request
 from flask_pymongo import PyMongo
 import model
 import requests
+import match_score
 from flask import session
 import bcrypt
 from flask import redirect, url_for
@@ -138,10 +139,12 @@ def store_users(): #this is the route for how the user creates an account
 @app.route("/search", methods = ["GET", "POST"])
 def search():
     if request.method == "POST":
-        search_query = request.form["query"]
-        song_ids = model.search_for_track(search_query) #gives a list of 10 song_ids that have similar names to the search query
+        song_query = request.form["song_query"]
+        artist_query = request.form["artist_query"]
+        song_ids = model.search_for_track_and_artist(song_query, artist_query) #gives a list of 10 song_ids that have similar names to the search query
         songs_found = model.id_to_song(song_ids) #gives a list of dictionaries
-        return render_template("appsites/overview.html", songs_found = songs_found)
+        list_of_songs = model.id_to_song(session["song_ids"])
+        return render_template("appsites/overview.html", songs_found = songs_found, list_of_songs = list_of_songs)
     else:
         return "Error. Search for a song using the button, not by manually typing in the URL."
 
@@ -150,8 +153,21 @@ def addsong(song_id):
     collection = mongo.db.profile
     collection.update({"email": session["email"]}, {"$push": {"song_ids": song_id} })
     session["song_ids"].append(song_id)
-    return "Test Page"
+    list_of_songs = model.id_to_song(session["song_ids"])
+    return render_template("appsites/overview.html", list_of_songs = list_of_songs)
 
+@app.route("/find_soulmates/<soulmate_query>")
+def find_soulmates(soulmate_query):
+    collection = mongo.db.users
+    users = collection.find({})
+    p1 = model.id_to_song(session["song_ids"])
+    for user in users:
+        p2 = model.id_to_song(user["song_ids"])
+        match_score = match_score.match_score_by_song(p1, p2)
+        print(match_score)
+        # if soulmate_query == "song":
+        #     match_score.match_score_by_song(p1, p2)
+    return "test"
 
 @app.route("/test", methods = ["GET","POST"])
 def test():

@@ -53,7 +53,8 @@
 	<div class=" ml-3 p-1 w-50 bg-light rounded rounded-pill shadow-sm mb-4">
 		<div class="input-group">
 			<form method = "post" action = "/search">
-                <input type="search" name = "query" placeholder="Search for an artist or song" aria-describedby="button-addon2" class="form-control border-0 bg-light">
+                <input type="search" name = "song_query" placeholder="Search for a song" required = "" aria-describedby="button-addon2" class="form-control border-0 bg-light">
+                <input type="search" name = "artist_query" placeholder="List the artist name" required = "" aria-describedby="button-addon2" class="form-control border-0 bg-light">
                 <button type = "submit" class = "btn"> Search </button>
             </form>
 		</div>
@@ -63,7 +64,8 @@
 	<div class=ml-3>
 		<h3> Songs Searched </h3>
 		{% for song_dict in songs_found %}
-		<p>{{ song_dict["track_name"] }} - <a href = "/addsong/{{ song_dict['song_id'] }}">Add</a> </p>
+		    <p>{{ song_dict["track_name"] }}</p>
+            <p>by {{ song_dict["track_artists"][0][0] }} - <a href = "/addsong/{{ song_dict['song_id'] }}">Add</a> </p>
 		{% endfor %}
 	</div>
     <br>

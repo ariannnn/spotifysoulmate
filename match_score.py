@@ -19,11 +19,11 @@ def match_score_by_song(p1, p2):
     artist_score = 0
     p1_artists = {}
     for song in p1:
-        p1_artists[song["artist"]] = "any_value"
+        p1_artists[song["track_artists"][0][0]] = "any_value"
 
     p2_artists = {}
     for song in p2:
-        p2_artists[song["artist"]] = "any_value"
+        p2_artists[song["track_artists"][0][0]] = "any_value"
 
     #loop through p1_artists and see if the artist in playlist1 can be located in playlist2. If so, add a score of 2.
     for artist in p1_artists:
@@ -37,11 +37,13 @@ def match_score_by_song(p1, p2):
     genre_score = 0
     p1_genres = {}
     for song in p1:
-        p1_genres[song["genre"]] = "any_value"
+        for i in len(song["artist_genres"]):
+            p1_genres[song["artist_genres"][i]] = "any_value"
 
     p2_genres = {}
     for song in p2:
-        p2_genres[song["genre"]] = "any_value"
+        for i in len(song["artist_genres"]):
+            p2_genres[song["artist_genres"][i]] = "any_value"
 
     #loop through p1_genres and see if the genre in playlist1 can be located in playlist2. If so, add a score of 1.
     for genre in p1_genres:
@@ -90,11 +92,13 @@ def match_score_by_artist(p1, p2):
     genre_score = 0
     p1_genres = {}
     for song in p1:
-        p1_genres[song["genre"]] = "any_value"
+        for i in len(song["artist_genres"]):
+            p1_genres[song["artist_genres"][i]] = "any_value"
 
     p2_genres = {}
     for song in p2:
-        p2_genres[song["genre"]] = "any_value"
+        for i in len(song["artist_genres"]):
+            p2_genres[song["artist_genres"][i]] = "any_value"
 
     #loop through p1_genres and see if the genre in playlist1 can be located in playlist2. If so, add a score of 1.
     for genre in p1_genres:
@@ -127,11 +131,13 @@ def match_score_by_genre(p1, p2):
     genre_score = 0
     p1_genres = {}
     for song in p1:
-        p1_genres[song["genre"]] = "any_value"
+        for i in len(song["artist_genres"]):
+            p1_genres[song["artist_genres"][i]] = "any_value"
 
     p2_genres = {}
     for song in p2:
-        p2_genres[song["genre"]] = "any_value"
+        for i in len(song["artist_genres"]):
+            p2_genres[song["artist_genres"][i]] = "any_value"
 
     #loop through p1_genres and see if the genre in playlist1 can be located in playlist2. If so, add a score of 1.
     for genre in p1_genres:
@@ -192,26 +198,26 @@ def is_matching(p1, p2, match_method):
         return "Input a valid 'match_method' string."
 
 
-# #test cases
-p1 = [
-    {"name":"Red", "artist": "Taylor Swift", "genre":"idk"},
-    {"name":"Cruel Summer", "artist": "Taylor Swift", "genre": "idk"}
-]
+# # #test cases
+# p1 = [
+#     {"name":"Red", "artist": "Taylor Swift", "genre":"idk"},
+#     {"name":"Cruel Summer", "artist": "Taylor Swift", "genre": "idk"}
+# ]
 
-p2 = [
-    {"name":"Red", "artist": "Taylor Swift", "genre":"idk"},
-    {"name":"Style", "artist": "Taylor Swift", "genre":"idk"},
-    {"name":"Wildest Dreams", "artist": "Taylor Swift", "genre":"idk"},
-    {"name":"Paradise", "artist": "Bazzi", "genre":"idk"},
-    {"name":"Naturally", "artist": "Selena Gomez", "genre": "pop"},
-    {"name":"prom dress", "artist":"mxmtoon","genre":"smth diff"},
-    {"name":"Party In The USA","artist":"Miley Cyrus","genre":"party"},
-    {"name":"Super Freak", "artist":"Rick James","genre":"disco"}
-]
+# p2 = [
+#     {"name":"Red", "artist": "Taylor Swift", "genre":"idk"},
+#     {"name":"Style", "artist": "Taylor Swift", "genre":"idk"},
+#     {"name":"Wildest Dreams", "artist": "Taylor Swift", "genre":"idk"},
+#     {"name":"Paradise", "artist": "Bazzi", "genre":"idk"},
+#     {"name":"Naturally", "artist": "Selena Gomez", "genre": "pop"},
+#     {"name":"prom dress", "artist":"mxmtoon","genre":"smth diff"},
+#     {"name":"Party In The USA","artist":"Miley Cyrus","genre":"party"},
+#     {"name":"Super Freak", "artist":"Rick James","genre":"disco"}
+# ]
 
-p3 = [
-    {"name":"A Thousand Years of Rain", "artist": "Selena Gomez", "genre": "pop"}
-]
+# p3 = [
+#     {"name":"A Thousand Years of Rain", "artist": "Selena Gomez", "genre": "pop"}
+# ]
 
 # print(match_score_by_genre(p1,p2))
 # match_percentage = match_percentage(total_score, max_score) 

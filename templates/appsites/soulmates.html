@@ -43,6 +43,9 @@
     <h3> Matches </h3>
     <div>
         <!-- Insert flask code to display soulmate matches and list matching songs/artists -->
+        {% for soulmate_query in ["song", "artist", "genre"] %}
+            <p> <a href = "/find_soulmates/{{ soulmate_query }}">Find Your Soulmate (by {{ soulmate_query }})</a> </p>
+        {% endfor %}
     </div>
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
