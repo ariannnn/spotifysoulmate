@@ -147,6 +147,12 @@ def search():
         artist_query = request.form["artist_query"]
         song_ids = model.search_for_track_and_artist(song_query, artist_query) #gives a list of 10 song_ids that have similar names to the search query
         songs_found = model.id_to_song(song_ids) #gives a list of dictionaries
+        
+        collection = mongo.db.profile
+        user = list(collection.find({"email": session["email"]}))[0]
+        songs = user["song_ids"]
+        session["song_ids"] = songs
+
         list_of_songs = model.id_to_song(session["song_ids"])
         return render_template("overview.html", songs_found = songs_found, list_of_songs = list_of_songs)
     else:
@@ -155,8 +161,10 @@ def search():
 @app.route("/addsong/<song_id>")
 def addsong(song_id):
     collection = mongo.db.profile
-    collection.update({"email": session["email"]}, {"$push": {"song_ids": song_id} })
-    session["song_ids"].append(song_id)
+    user = list(collection.find({"email": session["email"]}))[0]
+    if song_id not in user["song_ids"]:
+        collection.update({"email": session["email"]}, {"$push": {"song_ids": song_id} })
+        session["song_ids"].append(song_id)
     list_of_songs = model.id_to_song(session["song_ids"])
     return render_template("overview.html", list_of_songs = list_of_songs)
 
