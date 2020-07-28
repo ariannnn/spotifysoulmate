@@ -43,12 +43,12 @@
     <div class="ml-3" id=profile>
  
  
-        <h4> [PROFILE PIC] + [INPUT NAME HERE]</h4>
-        <h6> [Input Bio]</h6>
+        <h4>Welcome {{session["name"]}}</h4>
+        <h6>{{session["bio"]}}</h6>
      
 <!-- Searchbar Section -->
     <br />
-    <div class=" ml-3 p-1 w-50 bg-light rounded rounded-pill shadow-sm mb-4">
+    <div class=" ml-3 p-1 w-50 bg-light rounded shadow-sm mb-4">
         <div class="input-group">
             <form method = "post" action = "/search">
                 <input type="search" name = "song_query" placeholder="Search for a song" required = "" aria-describedby="button-addon2" class="form-control border-0 bg-light">
@@ -90,49 +90,6 @@
  
         </div>
  
-        <br />
-        <h3 class = "ml=3"> Favorite Albums </h3>
-            <div class="songlist row" <a href="https://open.spotify.com/track/3uouaAVXpQR3X8RYkJyitQ">
-                <div class = "col-3">
-                <a href = "">
-                <img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
-                <br />
-                <span class = "as">CASE STUDY 001</span>
-                <br />
-                Daniel Caesar
-            </a>
-        </div>
-        <div class = "col-3">
-        <a href = "">
-        <img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
-        <br />
-        <span class = "as">Cyanide</span>
-        <br />
-        Daniel Caesar
-    </a>
-</div>
-</div>
- 
-<br />
- 
-<h3 class = "ml=3"> Favorite Artists </h3>
-    <div class="songlist row" <a href="https://open.spotify.com/track/3uouaAVXpQR3X8RYkJyitQ">
-        <div class = "col-3">
-        <a href = "">
-        <img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
-        <br />
-        Daniel Caesar
-    </a>
-</div>
-<div class = "col-3">
-<a href = "">
-<img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
-<br />
-<span class = "as">Cyanide</span>
-<br />
-Daniel Caesar
-</a>
-</div>
  
  
         </div>
