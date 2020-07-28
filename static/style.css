@@ -14,3 +14,7 @@ body{
   font-family: sans-serif;
 
 }
+
+.song-card{
+    border-radius:10px;
+}

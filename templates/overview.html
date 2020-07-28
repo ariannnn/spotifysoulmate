@@ -80,54 +80,20 @@
                 <br />
                 Daniel Caesar
             </a>
-        </div>
-        <div class = "col-3">
-        <a href = "">
-        <img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
-        <br />
-        <span class = "as">Cyanide</span>
-        <br />
-        Daniel Caesar
-    </a>
-</div>
-<div class = "col-3">
-<a href = "">
-<img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
-<br />
-<span class = "as">Cyanide</span>
-<br />
-Daniel Caesar
-</a>
-</div>
-<div class = "col-3">
-<a href = "">
-<img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
-<br />
-<span class = "as">Cyanide</span>
-<br />
-Daniel Caesar
-</a>
-</div>
-<div class = "col-3">
-<a href = "">
-<img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
-<br />
-<span class = "as">Cyanide</span>
-<br />
-Daniel Caesar
-</a>
-</div>
-<div class = "col-3">
-<a href = "">
-<img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
-<br />
-<span class = "as">Cyanide</span>
-<br />
-Daniel Caesar
-</a>
-</div>
- 
- 
+        </div> 
+         {% for song_dict in list_of_songs %}
+            <div class = "col-3">
+                <a href = "">
+                <img class="song-card" src={{song_dict["album_art_url"]}} width= 150px/>
+                <br />
+                <span class = "as">{{ song_dict["track_name"] }}</span>
+                <br />
+                {{ song_dict["track_artists"][0][0] }}
+                </a>
+            </div>
+        {% endfor %}
+
+
  
  
         </div>
