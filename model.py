@@ -58,11 +58,11 @@ def search_for_album(album):
 
 def search_for_track_and_artist(track, artist):
     top_10_ids_track = []
-    data = sp.search(q="track:" + track, limit = 25, type="track")
+    data = sp.search(q="track:" + track, limit = 35, type="track")
     for track in data["tracks"]["items"]:
         top_10_ids_track.append(track["id"])
     top_10_artist_names = []
-    data = sp.search(q="artist:" + artist, limit = 25, type="artist")
+    data = sp.search(q="artist:" + artist, limit = 10, type="artist")
     for track in data["artists"]["items"]:
         top_10_artist_names.append(track["id"])
     top_10_ids = []
