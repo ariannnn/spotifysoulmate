@@ -176,15 +176,18 @@ def addsong(song_id):
 
 @app.route("/find_soulmates/<soulmate_query>")
 def find_soulmates(soulmate_query):
-    collection = mongo.db.users
+    collection = mongo.db.profile
     users = collection.find({})
     p1 = model.id_to_song(session["song_ids"])
     for user in users:
         p2 = model.id_to_song(user["song_ids"])
-        match_score = match_score.match_score_by_song(p1, p2)
-        print(match_score)
-        # if soulmate_query == "song":
-        #     match_score.match_score_by_song(p1, p2)
+        if soulmate_query == "song":
+            match = match_score.match_score_by_song(p1, p2)
+        if soulmate_query == "artist":
+            match = match_score.match_score_by_artist(p1, p2)
+        if soulmate_query == "genre":
+            match = match_score.match_score_by_genre(p1, p2)
+        print(match)
     return "test"
 
 @app.route("/test", methods = ["GET","POST"])

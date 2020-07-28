@@ -37,12 +37,12 @@ def match_score_by_song(p1, p2):
     genre_score = 0
     p1_genres = {}
     for song in p1:
-        for i in len(song["artist_genres"]):
+        for i in range(len(song["artist_genres"])):
             p1_genres[song["artist_genres"][i]] = "any_value"
 
     p2_genres = {}
     for song in p2:
-        for i in len(song["artist_genres"]):
+        for i in range(len(song["artist_genres"])):
             p2_genres[song["artist_genres"][i]] = "any_value"
 
     #loop through p1_genres and see if the genre in playlist1 can be located in playlist2. If so, add a score of 1.
@@ -74,11 +74,11 @@ def match_score_by_artist(p1, p2):
     artist_score = 0
     p1_artists = {}
     for song in p1:
-        p1_artists[song["artist"]] = "any_value"
+        p1_artists[song["track_artists"][0][0]] = "any_value"
 
     p2_artists = {}
     for song in p2:
-        p2_artists[song["artist"]] = "any_value"
+        p2_artists[song["track_artists"][0][0]] = "any_value"
 
     #loop through p1_artists and see if the artist in playlist1 can be located in playlist2. If so, add a score of 2.
     for artist in p1_artists:
@@ -92,12 +92,12 @@ def match_score_by_artist(p1, p2):
     genre_score = 0
     p1_genres = {}
     for song in p1:
-        for i in len(song["artist_genres"]):
+        for i in range(len(song["artist_genres"])):
             p1_genres[song["artist_genres"][i]] = "any_value"
 
     p2_genres = {}
     for song in p2:
-        for i in len(song["artist_genres"]):
+        for i in range(len(song["artist_genres"])):
             p2_genres[song["artist_genres"][i]] = "any_value"
 
     #loop through p1_genres and see if the genre in playlist1 can be located in playlist2. If so, add a score of 1.
@@ -131,12 +131,12 @@ def match_score_by_genre(p1, p2):
     genre_score = 0
     p1_genres = {}
     for song in p1:
-        for i in len(song["artist_genres"]):
+        for i in range(len(song["artist_genres"])):
             p1_genres[song["artist_genres"][i]] = "any_value"
 
     p2_genres = {}
     for song in p2:
-        for i in len(song["artist_genres"]):
+        for i in range(len(song["artist_genres"])):
             p2_genres[song["artist_genres"][i]] = "any_value"
 
     #loop through p1_genres and see if the genre in playlist1 can be located in playlist2. If so, add a score of 1.
