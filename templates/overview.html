@@ -33,7 +33,7 @@
  
             </ul>
             <!-- <a href="../index" class="btn btn-outline-success ml-lg-4 my-sm-2">Log Out</a> -->
-            <form method="post" action="/index">
+            <form method="get" action="/sign_in">
                 <input type="submit" value="Log Out" class="btn btn-outline-success ml-lg-4 my-sm-2" />
             </form>
         </div>
@@ -74,7 +74,7 @@
             <div class="songlist row">
          {% for song_dict in list_of_songs %}
             <div class = "col-3">
-                <a href = "https://open.spotify.com/track/{{song_dict["song_id"]}}" target = "_blank">
+                <a href = "https://open.spotify.com/track/{{song_dict['song_id']}}" target = "_blank">
                 <img class="song-card" src={{song_dict["album_art_url"]}} width= 150px/>
                 <br />
                 <span class = "as">{{ song_dict["track_name"] }}</span>

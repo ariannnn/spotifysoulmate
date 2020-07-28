@@ -32,11 +32,17 @@ email = "" #this variable is initialized here to avoid bugs
 @app.route('/')
 @app.route('/index', methods = ["GET", "POST"])
 def index():
-    is_session_empty = False
     if session.get("email") == None or session["email"] != email:
         session.clear()
-        is_session_empty = True
-    return render_template("index.html", is_session_empty = is_session_empty)
+        return render_template("index.html")
+    else:
+        collection = mongo.db.profile
+        user = list(collection.find({"email": session["email"]}))[0]
+        songs = user["song_ids"]
+        session["song_ids"] = songs
+        list_of_songs = model.id_to_song(session["song_ids"])
+        return render_template("overview.html", list_of_songs = list_of_songs)
+    
 
 #might be old code
 @app.route('/profile', methods=["GET", "POST"])
@@ -145,7 +151,7 @@ def search():
     if request.method == "POST":
         song_query = request.form["song_query"]
         artist_query = request.form["artist_query"]
-        song_ids = model.search_for_track_and_artist(song_query, artist_query) #gives a list of 10 song_ids that have similar names to the search query
+        song_ids = model.search_for_track_and_artist(song_query, artist_query) #gives a list of up to 10 song_ids that have similar names to the search query
         songs_found = model.id_to_song(song_ids) #gives a list of dictionaries
         
         collection = mongo.db.profile
@@ -197,8 +203,11 @@ def test():
 
 @app.route("/removesong/<song_id>")
 def removesong(song_id):
+    print(song_id)
     collection = mongo.db.profile
     collection.update({"email": session["email"]}, {"$pull": {"song_ids": song_id} })
-    session["song_ids"].remove(song_id)
+    user = list(collection.find({"email": session["email"]}))[0]
+    songs = user["song_ids"]
+    session["song_ids"] = songs
     list_of_songs = model.id_to_song(session["song_ids"])
     return render_template("overview.html", list_of_songs = list_of_songs)
