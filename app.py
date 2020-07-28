@@ -187,3 +187,10 @@ def test():
 # FYI on passwords - a student at another bank site just discovered documentation for bcrypt.checkpw() function that takes 2 arguments - the pw from the form and the pw from the database and returns True if they work!
 
 
+@app.route("/removesong/<song_id>")
+def removesong(song_id):
+    collection = mongo.db.profile
+    collection.update({"email": session["email"]}, {"$pull": {"song_ids": song_id} })
+    session["song_ids"].remove(song_id)
+    list_of_songs = model.id_to_song(session["song_ids"])
+    return render_template("overview.html", list_of_songs = list_of_songs)
