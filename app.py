@@ -71,7 +71,7 @@ def overview():
         return render_template("login.html")
     else:
         list_of_songs = model.id_to_song(session["song_ids"]) #gives a list of dictionaries
-        return render_template("appsites/overview.html", list_of_songs = list_of_songs)
+        return render_template("overview.html", list_of_songs = list_of_songs)
 
 @app.route('/soulmates')
 def soulmates():
@@ -79,7 +79,7 @@ def soulmates():
         session.clear()
         return render_template("login.html")
     else:
-        return render_template("appsites/soulmates.html")
+        return render_template("soulmates.html")
 
 @app.route('/help')
 def help():
@@ -87,7 +87,7 @@ def help():
         session.clear()
         return render_template("login.html")
     else:
-        return render_template("appsites/help.html")
+        return render_template("help.html")
 
 @app.route('/sign_in', methods = ["GET", "POST"])
 def user_signin():
@@ -107,7 +107,7 @@ def user_signin():
             session["bio"] = user[0]["bio"]
             session["song_ids"] = user[0]["song_ids"]
             list_of_songs = model.id_to_song(session["song_ids"]) #gives a list of dictionaries
-            return render_template("appsites/overview.html", list_of_songs = list_of_songs)
+            return render_template("overview.html", list_of_songs = list_of_songs)
         else:
             return render_template("login.html")
     else:
@@ -130,7 +130,7 @@ def store_users(): #this is the route for how the user creates an account
             session["bio"] = user[0]["bio"]
             session["song_ids"] = user[0]["song_ids"]
             list_of_songs = model.id_to_song(session["song_ids"])
-            return render_template("appsites/overview.html", list_of_songs = list_of_songs)
+            return render_template("overview.html", list_of_songs = list_of_songs)
         else:
             return render_template("signup.html")
     else:
@@ -144,7 +144,7 @@ def search():
         song_ids = model.search_for_track_and_artist(song_query, artist_query) #gives a list of 10 song_ids that have similar names to the search query
         songs_found = model.id_to_song(song_ids) #gives a list of dictionaries
         list_of_songs = model.id_to_song(session["song_ids"])
-        return render_template("appsites/overview.html", songs_found = songs_found, list_of_songs = list_of_songs)
+        return render_template("overview.html", songs_found = songs_found, list_of_songs = list_of_songs)
     else:
         return "Error. Search for a song using the button, not by manually typing in the URL."
 
@@ -154,7 +154,7 @@ def addsong(song_id):
     collection.update({"email": session["email"]}, {"$push": {"song_ids": song_id} })
     session["song_ids"].append(song_id)
     list_of_songs = model.id_to_song(session["song_ids"])
-    return render_template("appsites/overview.html", list_of_songs = list_of_songs)
+    return render_template("overview.html", list_of_songs = list_of_songs)
 
 @app.route("/find_soulmates/<soulmate_query>")
 def find_soulmates(soulmate_query):
@@ -181,3 +181,5 @@ def test():
     return render_template("test.html")
 
 # FYI on passwords - a student at another bank site just discovered documentation for bcrypt.checkpw() function that takes 2 arguments - the pw from the form and the pw from the database and returns True if they work!
+
+

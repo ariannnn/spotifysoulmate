@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Dashboard</title>
+</head>
+ 
+<body>
+    <nav class="navbar navcolor navbar-expand-lg">
+        <a class="navbar-brand" href="#"><img src={{ url_for('static', filename='Untitled-1.png') }} width="125" /></a>
+        <button class=" navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+ 
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/overview">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/soulmates">Find Soulmates</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/help">Help</a>
+                </li>
+ 
+            </ul>
+            <!-- <a href="../index" class="btn btn-outline-success ml-lg-4 my-sm-2">Log Out</a> -->
+            <form method="post" action="/index">
+                <input type="submit" value="Log Out" class="btn btn-outline-success ml-lg-4 my-sm-2" />
+            </form>
+        </div>
+    </nav>
+    <br />
+    <!-- Profile Section -->
+    <div class="ml-3" id=profile>
+ 
+ 
+        <h4> [PROFILE PIC] + [INPUT NAME HERE]</h4>
+        <h6> [Input Bio]</h6>
+     
+<!-- Searchbar Section -->
+    <br />
+    <div class=" ml-3 p-1 w-50 bg-light rounded rounded-pill shadow-sm mb-4">
+        <div class="input-group">
+            <form method = "post" action = "/search">
+                <input type="search" name = "song_query" placeholder="Search for a song" required = "" aria-describedby="button-addon2" class="form-control border-0 bg-light">
+                <input type="search" name = "artist_query" placeholder="List the artist name" required = "" aria-describedby="button-addon2" class="form-control border-0 bg-light">
+                <button type = "submit" class = "btn"> Search </button>
+            </form>
+        </div>
+    </div>
+    <br>
+    <!-- Listing songs searched -->
+    <div class=ml-3>
+        <h3> Songs Searched </h3>
+        {% for song_dict in songs_found %}
+            <p>{{ song_dict["track_name"] }}</p>
+            <p>by {{ song_dict["track_artists"][0][0] }} - <a href = "/addsong/{{ song_dict['song_id'] }}">Add</a> </p>
+        {% endfor %}
+    </div>
+    <br>
+    
+        <!-- Listing favorite tracks -->
+        <div class = "col-md-6">
+        <h3 class = "ml=3"> Favorite Songs </h3>
+            <div class="songlist row" <a href="https://open.spotify.com/track/3uouaAVXpQR3X8RYkJyitQ">
+                <div class = "col-3">
+                <a href = "">
+                <img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
+                <br />
+                <span class = "as">Cyanide</span>
+                <br />
+                Daniel Caesar
+            </a>
+        </div>
+        <div class = "col-3">
+        <a href = "">
+        <img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
+        <br />
+        <span class = "as">Cyanide</span>
+        <br />
+        Daniel Caesar
+    </a>
+</div>
+<div class = "col-3">
+<a href = "">
+<img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
+<br />
+<span class = "as">Cyanide</span>
+<br />
+Daniel Caesar
+</a>
+</div>
+<div class = "col-3">
+<a href = "">
+<img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
+<br />
+<span class = "as">Cyanide</span>
+<br />
+Daniel Caesar
+</a>
+</div>
+<div class = "col-3">
+<a href = "">
+<img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
+<br />
+<span class = "as">Cyanide</span>
+<br />
+Daniel Caesar
+</a>
+</div>
+<div class = "col-3">
+<a href = "">
+<img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
+<br />
+<span class = "as">Cyanide</span>
+<br />
+Daniel Caesar
+</a>
+</div>
+ 
+ 
+ 
+ 
+        </div>
+ 
+        <br />
+        <h3 class = "ml=3"> Favorite Albums </h3>
+            <div class="songlist row" <a href="https://open.spotify.com/track/3uouaAVXpQR3X8RYkJyitQ">
+                <div class = "col-3">
+                <a href = "">
+                <img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
+                <br />
+                <span class = "as">CASE STUDY 001</span>
+                <br />
+                Daniel Caesar
+            </a>
+        </div>
+        <div class = "col-3">
+        <a href = "">
+        <img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
+        <br />
+        <span class = "as">Cyanide</span>
+        <br />
+        Daniel Caesar
+    </a>
+</div>
+</div>
+ 
+<br />
+ 
+<h3 class = "ml=3"> Favorite Artists </h3>
+    <div class="songlist row" <a href="https://open.spotify.com/track/3uouaAVXpQR3X8RYkJyitQ">
+        <div class = "col-3">
+        <a href = "">
+        <img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
+        <br />
+        Daniel Caesar
+    </a>
+</div>
+<div class = "col-3">
+<a href = "">
+<img class="song-card" src="https://upload.wikimedia.org/wikipedia/en/4/4c/Daniel_Caesar_-_Case_Study_01.png" width= 150px/>
+<br />
+<span class = "as">Cyanide</span>
+<br />
+Daniel Caesar
+</a>
+</div>
+ 
+ 
+        </div>
+    </div>
+        <!-- {% for song_dict in list_of_songs %}
+<p>{{ song_dict["track_name"] }}</p>
+{% endfor %} -->
+    </div>
+ 
+ 
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+    </script>
+</body>
+ 
+</html>
+ 
+
