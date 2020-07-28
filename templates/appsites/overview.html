@@ -63,7 +63,7 @@
 	<div class=ml-3>
 		<h3> Songs Searched </h3>
 		{% for song_dict in songs_found %}
-		<p>{{ song_dict["track_name"] }} - <a href = "/addsong" name = "{{song_dict['song_id']}}">Add</a> </p>
+		<p>{{ song_dict["track_name"] }} - <a href = "/addsong/{{ song_dict['song_id'] }}">Add</a> </p>
 		{% endfor %}
 	</div>
     <br>

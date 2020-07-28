@@ -24,16 +24,20 @@ app.config['MONGO_URI'] = 'mongodb+srv://admin:xOCwocN6xNvzPPSB@cluster0.vlksj.m
 
 mongo = PyMongo(app)
 
+email = "" #this variable is initialized here to avoid bugs
+
 # -- Routes section --
 # INDEX
-
 @app.route('/')
 @app.route('/index', methods = ["GET", "POST"])
 def index():
-    if request.method == "POST":
-        user_email = ""
-    return render_template("index.html")
+    is_session_empty = False
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        is_session_empty = True
+    return render_template("index.html", is_session_empty = is_session_empty)
 
+#might be old code
 @app.route('/profile', methods=["GET", "POST"])
 def profile():
     collection = mongo.db.songs
@@ -50,16 +54,6 @@ def profile():
                                 user_top_tracks=user_song, songs = songs)
     else:
         return render_template("profile.html", songs = songs)
-
-#perhaps i could just use <input type = "submit" class = "nav-link"> so that the user cannot log in by just manually typing in the URL
-
-@app.route('/about')
-def about():
-    return render_template("about.html")
-
-@app.route('/contact')
-def contact():
-    return render_template("contact.html")
 
 @app.route('/login', methods = ["GET","POST"])
 def login():
@@ -151,9 +145,13 @@ def search():
     else:
         return "Error. Search for a song using the button, not by manually typing in the URL."
 
-# @app.route("/addsong")
-# def addsong():
-#     user_email
+@app.route("/addsong/<song_id>")
+def addsong(song_id):
+    collection = mongo.db.profile
+    collection.update({"email": session["email"]}, {"$push": {"song_ids": song_id} })
+    session["song_ids"].append(song_id)
+    return "Test Page"
+
 
 @app.route("/test", methods = ["GET","POST"])
 def test():
