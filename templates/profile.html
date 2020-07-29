@@ -8,9 +8,17 @@
     <!-- make this pretty later -->
 	<h1> {{ name }}'s Profile </h1>
     <p><u>Match Percentage:</u> {{ match_percentage }}</p>
-    <p><u>Song Percentage:</u> {{ song_percentage }}</p>
-    <p><u>Artist Percentage:</u> {{ artist_percentage }}</p>
-    <p><u>Genre Percentage:</u> {{ genre_percentage }}</p>
+    {% if song_percentage != "": %}
+        <p><u>Song Percentage:</u> {{ song_percentage }}</p>
+    {% endif %}
+
+    {% if artist_percentage != "": %}
+        <p><u>Artist Percentage:</u> {{ artist_percentage }}</p>
+    {% endif %}
+
+    {% if genre_percentage != "": %}
+        <p><u>Genre Percentage:</u> {{ genre_percentage }}</p>
+    {% endif %}
     <p><u>Email:</u> {{ email }}</p>
     <p><u>Bio:</u> {{ bio }}</p>
     <p><u>Songs: </u></p>
