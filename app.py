@@ -101,7 +101,6 @@ def soulmates():
                         song_percentages["song_percentage"] = match_score.song_percentage()
                         song_percentages["artist_percentage"] = match_score.artist_percentage()
                         song_percentages["genre_percentage"] = match_score.genre_percentage()
-                        print(song_percentages)
                         user["song_percentages"] = song_percentages
                     if match_score.is_matching(p1, p2, "artist"):
                         artist_matching_users.append(user)
@@ -168,6 +167,42 @@ def help():
         return render_template("login.html")
     else:
         return render_template("help.html")
+
+@app.route("/profile_page")
+def profile_page():
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        collection = mongo.db.profile
+        user = list(collection.find({"email": session["email"]}))[0]
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False)
+
+@app.route("/change/name")
+def change_name():
+    collection = mongo.db.profile
+    user = list(collection.find({"email": session["email"]}))[0]
+    return render_template("profile_page.html", user = user, is_changing_name = True, is_changing_bio = False)
+
+@app.route("/change/bio")
+def change_bio():
+    collection = mongo.db.profile
+    user = list(collection.find({"email": session["email"]}))[0]
+    return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = True)
+
+@app.route("/update_database/name")
+def update_database_name():
+    new_name = request.form["name"]
+    collection = mongo.db.profile
+    collection.update({"email": session["email"]}, {"$set", {"name": new_name}})
+    return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False)
+
+@app.route("/update_database/bio")
+def update_database_bio():
+    new_bio = request.form["bio"]
+    collection = mongo.db.profile
+    collection.update({"email": session["email"]}, {"$set", {"bio": new_bio}})
+    return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False)
 
 @app.route('/sign_in', methods = ["GET", "POST"])
 def user_signin():
@@ -252,23 +287,8 @@ def addsong(song_id):
     list_of_songs = model.id_to_song(session["song_ids"])
     return render_template("overview.html", list_of_songs = list_of_songs)
 
-@app.route("/test", methods = ["GET","POST"])
-def test():
-    collection = mongo.db.profile
-    if request.method == "POST":
-        #the message successfully pushed to dyllon's database
-        message = request.form["message"]
-        #once we have users implemented, i can also add a "users" key to the dictionary im pushing to the database
-        collection.insert({"message":message})
-        print(collection.find({}))
-    return render_template("test.html")
-
-# FYI on passwords - a student at another bank site just discovered documentation for bcrypt.checkpw() function that takes 2 arguments - the pw from the form and the pw from the database and returns True if they work!
-
-
 @app.route("/removesong/<song_id>")
 def removesong(song_id):
-    print(song_id)
     collection = mongo.db.profile
     collection.update({"email": session["email"]}, {"$pull": {"song_ids": song_id} })
     user = list(collection.find({"email": session["email"]}))[0]

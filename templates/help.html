@@ -9,40 +9,44 @@
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-	<link rel ="stylesheet" href = "../static/css/style.css" />
+	<link rel="stylesheet" href="../static/css/style.css" />
 
 	<title>Help</title>
 </head>
 
 <body>
 	<nav class="navbar navcolor navbar-expand-lg">
-		<a class="navbar-brand" href="#"><img src = {{ url_for('static', filename='Untitled-1.png') }} width = "125" /></a>
-		<button class="navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<a class="navbar-brand"
+			href="#"><img src = {{ url_for('static', filename='Untitled-1.png') }} width = "125" /></a>
+			<button class="navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item">
-					<a class="nav-link" href="/overview">Overview</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/soulmates">Find Soulmates</a>
-				</li>
-				<li class="nav-item active">
-					<a class="nav-link" href="/help">Help</a>
-				</li>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/overview">Overview</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/soulmates">Find Soulmates</a>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="/help">Help</a>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="/profile_page">Profile Page</a>
+					</li>
 
-			</ul>
-			<form method="get" action="/sign_in">
-				<input type = "submit" value = "Log Out" class = "btn btn-outline-success ml-lg-4 my-sm-2"/>
+				</ul>
+				<form method="get" action="/sign_in">
+					<input type = "submit" value = "Log Out" class = "btn btn-outline-success ml-lg-4 my-sm-2"/>
             </form>
-		</div>
+			</div>
 	</nav>
-    <div class="text-center mb-4">
-        <h1 class="h5 mb-3 font-weight-normal">Frequently asked user functionality questions</h1>
+	<div class="text-center mb-4">
+		<h1 class="h5 mb-3 font-weight-normal">Frequently asked user functionality questions</h1>
 	</div>
-    <div class = "m-5">
+	<div class="m-5">
 		<div class="accordion" id="accordionExample">
 			<div class="card">
 				<div class="card-header" id="headingOne">
@@ -52,10 +56,12 @@
 		        </button>
 					</h5>
 				</div>
-		
+
 				<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
 					<div class="card-body">
-						Once logged in, go to your overview tab. Here, you will be able to search for tracks by inputting both the track name, artist name, and clicking search. Then, just click 'add' on the search result you desire, and that song will be added to your favorites.
+						Once logged in, go to your overview tab. Here, you will be able to search for tracks by
+						inputting both the track name, artist name, and clicking search. Then, just click 'add' on the
+						search result you desire, and that song will be added to your favorites.
 					</div>
 				</div>
 			</div>
@@ -69,7 +75,9 @@
 				</div>
 				<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
 					<div class="card-body">
-						Once you have added at least 5 songs to your favorites, click on the Spotify Soulmates tab. Here, other user profiles will be displayed that match your musical tastes! Through this page, you can obtain their contact information and reach out to them.
+						Once you have added at least 5 songs to your favorites, click on the Spotify Soulmates tab.
+						Here, other user profiles will be displayed that match your musical tastes! Through this page,
+						you can obtain their contact information and reach out to them.
 					</div>
 				</div>
 			</div>
@@ -83,30 +91,35 @@
 				</div>
 				<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
 					<div class="card-body">
-						Spotify Soulmate searchs for possible Soulmates using our matching algorithms. These algorithms take into account your favorite tracks, artists, and genres to find you the best possible matches to your musical tastes.
+						Spotify Soulmate searchs for possible Soulmates using our matching algorithms. These algorithms
+						take into account your favorite tracks, artists, and genres to find you the best possible
+						matches to your musical tastes.
 					</div>
 				</div>
 			</div>
-        </div>
-    </div>
-
-    <div class="text-center mb-4">
-        <h1 class="h5 mb-3 font-weight-normal">Frequently asked error questions</h1>
+		</div>
 	</div>
-    <div class = "m-5">
+
+	<div class="text-center mb-4">
+		<h1 class="h5 mb-3 font-weight-normal">Frequently asked error questions</h1>
+	</div>
+	<div class="m-5">
 		<div class="accordion" id="accordionExample">
 			<div class="card">
 				<div class="card-header" id="headingfour">
 					<h5 class="mb-0">
 						<button class="btn" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-		          Why can't I find a certian song?
+		          Why can't I find a certain song?
 		        </button>
 					</h5>
 				</div>
-		
+
 				<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
 					<div class="card-body">
-						While the Spotify API gives us access to tens of millions of songs, not every song is on Spotify. Try double checking your search terms and try again. If you feel like recieving no results may be an error, please contact the Spotify Soulmate team, your help is grealty appreciated!
+						While the Spotify API gives us access to tens of millions of songs, not every song is on
+						Spotify. Try double checking your search terms and try again. If you feel like recieving no
+						results may be an error, please contact the Spotify Soulmate team, your help is grealty
+						appreciated!
 					</div>
 				</div>
 			</div>
@@ -120,7 +133,9 @@
 				</div>
 				<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
 					<div class="card-body">
-						Don't worry, it is unlikely that nobody shares your musical tastes. Spotify Soulmate is a growing service with an expanding user base. Check back in a few days, and likely someone with similar tastes will have joined by them.
+						Don't worry, it is unlikely that nobody shares your musical tastes. Spotify Soulmate is a
+						growing service with an expanding user base. Check back in a few days, and likely someone with
+						similar tastes will have joined by them.
 					</div>
 				</div>
 			</div>
@@ -134,12 +149,14 @@
 				</div>
 				<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionExample">
 					<div class="card-body">
-						Spotify Soulmate is a growing service built by a small team of developers. In such a small and agile team, bugs are unavoidable. Please reach out to the Spotify Soulmate team to report your specific bug, your help is greatly appreciated.
+						Spotify Soulmate is a growing service built by a small team of developers. In such a small and
+						agile team, bugs are unavoidable. Please reach out to the Spotify Soulmate team to report your
+						specific bug, your help is greatly appreciated.
 					</div>
 				</div>
 			</div>
-        </div>
-    </div>
+		</div>
+	</div>
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
