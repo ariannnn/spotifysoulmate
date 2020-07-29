@@ -89,7 +89,27 @@ def soulmates():
         session.clear()
         return render_template("login.html")
     else:
-        return render_template("soulmates.html")
+        collection = mongo.db.profile
+        users = collection.find({})
+        logined_user = list(collection.find({"email": session["email"]}))[0]
+        session["song_ids"] = logined_user["song_ids"]
+        p1 = model.id_to_song(session["song_ids"])
+        if len(p1) < 5:
+            return "You must have at least 5 songs if you want to match!"
+        song_matching_users = []
+        artist_matching_users = []
+        genre_matching_users = []
+        for user in users:
+            if user["email"] != session["email"]:
+                p2 = model.id_to_song(user["song_ids"])
+                if len(p2) >= 5:
+                    if match_score.is_matching(p1, p2, "song"):
+                        song_matching_users.append(user)
+                    if match_score.is_matching(p1, p2, "artist"):
+                        artist_matching_users.append(user)
+                    if match_score.is_matching(p1, p2, "genre"):
+                        genre_matching_users.append(user)
+        return render_template("soulmates.html", song_matching_users = song_matching_users, artist_matching_users = artist_matching_users, genre_matching_users = genre_matching_users)
 
 @app.route('/help')
 def help():
@@ -173,22 +193,6 @@ def addsong(song_id):
         session["song_ids"].append(song_id)
     list_of_songs = model.id_to_song(session["song_ids"])
     return render_template("overview.html", list_of_songs = list_of_songs)
-
-@app.route("/find_soulmates/<soulmate_query>")
-def find_soulmates(soulmate_query):
-    collection = mongo.db.profile
-    users = collection.find({})
-    p1 = model.id_to_song(session["song_ids"])
-    for user in users:
-        p2 = model.id_to_song(user["song_ids"])
-        if soulmate_query == "song":
-            match = match_score.match_score_by_song(p1, p2)
-        if soulmate_query == "artist":
-            match = match_score.match_score_by_artist(p1, p2)
-        if soulmate_query == "genre":
-            match = match_score.match_score_by_genre(p1, p2)
-        print(match)
-    return "test"
 
 @app.route("/test", methods = ["GET","POST"])
 def test():

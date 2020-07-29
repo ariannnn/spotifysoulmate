@@ -43,8 +43,19 @@
     <h3> Matches </h3>
     <div>
         <!-- Insert flask code to display soulmate matches and list matching songs/artists -->
-        {% for soulmate_query in ["song", "artist", "genre"] %}
-            <p> <a href = "/find_soulmates/{{ soulmate_query }}">Find Your Soulmate (by {{ soulmate_query }})</a> </p>
+        <h4>By Songs</h4>
+        {% for user in song_matching_users %}
+            <p>{{ user["name"] }}</p>
+        {% endfor %}
+
+        <h4>By Artists</h4>
+        {% for user in artist_matching_users %}
+            <p>{{ user["name"] }}</p>
+        {% endfor %}
+
+        <h4>By Genres</h4>
+        {% for user in genre_matching_users %}
+            <p>{{ user["name"] }}</p>
         {% endfor %}
     </div>
 	<!-- Optional JavaScript -->
