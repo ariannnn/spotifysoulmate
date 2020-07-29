@@ -1,166 +1,228 @@
 <!doctype html>
 <html lang="en">
- 
+
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
- 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href= "{{ url_for('static', filename='style.css') }}" />
-<style>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-a{
-  color:black;
-}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
+	<style>
+		a {
+			color: black;
+		}
 
-.navcolor{
-  background-color: white
-  font-family: sans-serif;
+		.navcolor {
+			background-color: white font-family: sans-serif;
 
-}
+		}
 
-body{
-  background-color: white;
-  font-family: sans-serif;
+		.fa-play:hover {
+			color: white;
+		}
 
-}
+		body {
+			background-color: white;
+			font-family: sans-serif;
 
-.play-hover {
-	position: relative;
-	display: inline-block;
-}
+		}
 
-.play-hover:hover .play {
-	display: block;
-}
+		.play-hover {
+			position: relative;
+			display: inline-block;
+		}
 
-.play {
-  color: white;
-  font-size: 50px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  text-align: center;
-  display: none;
-}
+		.play-hover:hover .remove {
+			display: block;
+		}
 
-.play a {
-	color: #eee;
-  opacity: 0.6;
-}
+		.play-hover:hover .play {
+			display: block;
+		}
 
-.song-card{
-    border-radius:10px;
-    transition: transform .3s ease;
-}
+		.play-hover:hover .add {
+			display: block;
+		}
 
-.song-card:hover {
-  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-}
+		.play {
+			color: white;
+			font-size: 50px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			-ms-transform: translate(-50%, -50%);
+			text-align: center;
+			display: none;
+		}
 
-</style>
-    <title>Dashboard</title>
+		.play a {
+			color: #eee;
+			opacity: 0.6;
+		}
+
+		.remove {
+			padding-top: 2.5px;
+			padding-right: 2.5px;
+			position: absolute;
+			right: 0;
+			top: 0;
+			display: none;
+		}
+
+		.remove a {
+			color: #eee;
+			opacity: 0.6;
+		}
+
+		.add {
+			padding-top: 2.5px;
+			padding-right: 2.5px;
+			position: absolute;
+			right: 0;
+			top: 0;
+			display: none;
+		}
+
+		span.as {
+			width: 50%;
+			font-weight: bold;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.add a {
+			color: #1DB954;
+			opacity: 1;
+		}
+
+		.fa-plus-circle:hover {
+			opacity: 1;
+		}
+
+		.song-card {
+			border-radius: 10px;
+			transition: transform .3s ease;
+		}
+
+		.song-card:hover {
+			transform: scale(1.1);
+			/* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+		}
+	</style>
+	<title>Dashboard</title>
 </head>
- 
+
 <body>
-    <nav class="navbar navcolor navbar-expand-lg">
-        <a class="navbar-brand" href="#"><img src={{ url_for('static', filename='Untitled-1.png') }} width="125" /></a>
-        <button class=" navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	<nav class="navbar navcolor navbar-expand-lg">
+		<a class="navbar-brand" href="#"><img src={{ url_for('static', filename='Untitled-1.png') }} width="125" /></a>
+			<button class=" navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
- 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/overview">Overview</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/soulmates">Find Soulmates</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/help">Help</a>
-                </li>
- 
-            </ul>
-            <!-- <a href="../index" class="btn btn-outline-success ml-lg-4 my-sm-2">Log Out</a> -->
-            <form method="get" action="/sign_in">
-                <input type="submit" value="Log Out" class="btn btn-outline-success ml-lg-4 my-sm-2" />
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="/overview">Overview</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/soulmates">Find Soulmates</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/help">Help</a>
+					</li>
+
+				</ul>
+				<!-- <a href="../index" class="btn btn-outline-success ml-lg-4 my-sm-2">Log Out</a> -->
+				<form method="get" action="/sign_in">
+					<input type="submit" value="Log Out" class="btn btn-outline-success ml-lg-4 my-sm-2" />
             </form>
-        </div>
-    </nav>
-    <br />
-    <!-- Profile Section -->
-    <div class="ml-3" id=profile>
- 
- 
-        <h4>Welcome {{session["name"].capitalize()}}</h4>
-        <h6>{{session["bio"]}}</h6>
-     
-    </div>
-    <br>
-    
-        <!-- Listing favorite tracks -->
-        <div class = "row">
-        <div class = "col-md-6 ml-3">
-        <h3 class = "ml"> Favorite Songs </h3>
-            <div class="songlist row">
-         {% for song_dict in list_of_songs %}
-            <div class = "col-3 text-center">
-                <div class = "play-hover">
-                <!-- <a href = "https://open.spotify.com/track/{{song_dict['song_id']}}" target = "_blank"> -->
-                <img class="song-card" src={{song_dict["album_art_url"]}} width= 150px/>
-                	<div class="play"><a href="https://open.spotify.com/track/{{song_dict['song_id']}}" target = "_blank"><i class="fa fa-play fa-sm"></i></a></div>
-                    </div>
-                <br />
-                <span class = "as">{{ song_dict["track_name"] }}</span>
-                <br />
-                {{ song_dict["track_artists"][0][0] }}
-                </a>
-                <a href = "/removesong/{{ song_dict['song_id'] }}"> Remove </a>
-            </div>
-        {% endfor %}
-
-
-
- 
- 
-        </div>
- 
- 
- 
-        </div>
-    
-    
- <!-- Searchbar Section -->
-    <div class = "col-md-5">
-        <p></p>
-        <h3> Add Songs </h3>
-        <div class="input-group">
-            <div class=" ml-4 p-1 w-100 bg-light rounded shadow-sm">
-            <form method = "post" action = "/search">
-                <input type="search" name = "song_query" placeholder="Search for a song" required = "" aria-describedby="button-addon2" class="form-control border-0 bg-light">
-                
-                <input type="search" name = "artist_query" placeholder="List the artist name" required = "" aria-describedby="button-addon2" class="form-control border-0 bg-light">
-                <button type = "submit" class = "btn"> Search </button>
-            </form>
-        </div>
-    </div>
-    <br>
-    <!-- Listing songs searched -->
-    <div class= "ml-2">
-        <h3> Songs Searched </h3>
-        <div class = row>
-			<div class="text-center mb-4">
-				<h1 class="h5 mb-3 font-weight-normal text-danger">{{error_message}}</h1>
 			</div>
-        {% for song_dict in songs_found %}
-            <div class = "col-4 text-center">
+	</nav>
+	<br />
+	<!-- Profile Section -->
+	<div class="ml-3" id=profile>
+
+
+		<h4>Welcome {{session["name"].capitalize()}}</h4>
+		<h6>{{session["bio"]}}</h6>
+
+	</div>
+	<br>
+
+	<!-- Listing favorite tracks -->
+	<div class="row">
+		<div class="col-md-6 ml-3">
+			<h3 class="ml"> Favorite Songs </h3>
+			<div class="songlist row">
+				{% for song_dict in list_of_songs %}
+				<div class="col-3 text-center">
+					<div class="play-hover">
+						<!-- <a href = "https://open.spotify.com/track/{{song_dict['song_id']}}" target = "_blank"> -->
+						<img class="song-card" src={{song_dict["album_art_url"]}} width= 150px/>
+						<div class="play"><a href="https://open.spotify.com/track/{{song_dict['song_id']}}"
+								target="_blank"><i class="fa fa-play fa-sm"></i></a></div>
+
+						<div class="remove"><a
+								href="/removesong/{{ song_dict['song_id'] }}"><i class="fa fa-minus-circle fa-sm"></i></a>
+						</div>
+					</div>
+					<br />
+					<span class = "as">
+                        {% if (song_dict["track_name"])|length > 21 %}
+                        {{ song_dict["track_name"][0:20] + "..." }}
+                         {% else %}
+                          {{ song_dict["track_name"]}}
+
+                        {% endif %}
+                          </span>
+					<br />
+                {{ song_dict["track_artists"][0][0] }}
+
+            </div>
+					{% endfor %}
+
+
+
+
+
+				</div>
+
+
+
+			</div>
+
+
+			<!-- Searchbar Section -->
+			<div class="col-md-5">
+				<p></p>
+				<h3> Add Songs </h3>
+				<div class="input-group">
+					<div class=" ml-4 p-1 w-100 bg-light rounded shadow-sm">
+						<form method="post" action="/search">
+							<input type="search" name = "song_query" placeholder="Search for a song" required = "" aria-describedby="button-addon2" class="form-control border-0 bg-light">
+
+							<input type="search" name = "artist_query" placeholder="List the artist name" required = "" aria-describedby="button-addon2" class="form-control border-0 bg-light">
+							<button type = "submit" class = "btn"> Search </button>
+						</form>
+					</div>
+				</div>
+				<br>
+				<!-- Listing songs searched -->
+				<div class="ml-2">
+					<h3> Songs Searched </h3>
+					<div class=row>
+						<div class="text-center mb-4">
+							<h1 class="h5 mb-3 font-weight-normal text-danger">{{error_message}}</h1>
+						</div>
+						{% for song_dict in songs_found %}
+						<!-- <div class = "col-4 text-center">
                 <a href = "https://open.spotify.com/track/{{song_dict['song_id']}}" target = "_blank">
                 <img class="song-card" src={{song_dict["album_art_url"]}} width= 150px/>
                 <br />
@@ -169,23 +231,47 @@ body{
                 {{ song_dict["track_artists"][0][0] }}
                 </a>
                 <a href = "/addsong/{{ song_dict['song_id'] }}"> Add </a>
-            </div>
-        {% endfor %}
-        </div>
-    </div>
-    </div>
-    </div>
- 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
-    </script>
-</body>
- 
-</html>
- 
+            </div> -->
 
+						<div class="col-4 text-center">
+							<div class="play-hover">
+								<!-- <a href = "https://open.spotify.com/track/{{song_dict['song_id']}}" target = "_blank"> -->
+								<img class="song-card" src={{song_dict["album_art_url"]}} width= 150px/>
+								<div class="play"><a href="https://open.spotify.com/track/{{song_dict['song_id']}}"
+										target="_blank"><i class="fa fa-play fa-sm"></i></a></div>
+								<div class="add"><a
+										href="/addsong/{{ song_dict['song_id'] }}"><i class="fa fa-plus-circle fa-sm"></i></a>
+								</div>
+							</div>
+							<br />
+							<span class = "as">
+                        {% if (song_dict["track_name"])|length > 19 %}
+                        {{ song_dict["track_name"][0:19] + "..." }}
+                         {% else %}
+                          {{ song_dict["track_name"]}}
+                        {% endif %}
+                        </span>
+							<br />
+                {{ song_dict["track_artists"][0][0] }}
+                </a>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+		</script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+			integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+		</script>
+</body>
+
+</html>
