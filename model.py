@@ -5,12 +5,19 @@ from flask import render_template
 from flask import request
 from flask_pymongo import PyMongo
 import requests
+import os
 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-cid = '2aec1864fdb0443da8ea4f23b250f72b'
-secret = '8100126adef24003b819e136fbc13afe'
+
+
+mongodb_username = os.environ["mongodb_username"]
+mongodb_password = os.environ["mongodb_password"]
+
+cid = os.environ["spotify_cid"]
+secret = os.environ["spotify_secret"]
+
 client_credentials_manager = SpotifyClientCredentials(
     client_id=cid, client_secret=secret)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
@@ -22,7 +29,7 @@ app = Flask(__name__)
 app.config['MONGO_DBNAME'] = 'users'
 
 # URI of database
-app.config['MONGO_URI'] = 'mongodb+srv://admin:xOCwocN6xNvzPPSB@cluster0.vlksj.mongodb.net/users?retryWrites=true&w=majority'
+app.config['MONGO_URI'] = f'mongodb+srv://{mongodb_username}:{mongodb_password}@cluster0.vlksj.mongodb.net/users?retryWrites=true&w=majority'
 
 mongo = PyMongo(app)
 

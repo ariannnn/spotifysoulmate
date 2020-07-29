@@ -10,17 +10,24 @@ import match_score
 from flask import session
 import bcrypt
 from flask import redirect, url_for
+import os
+
+flask_key = os.environ["flask_key"]
+mongodb_username = os.environ["mongodb_username"]
+mongodb_password = os.environ["mongodb_password"]
+
+
 
 #don't forget to "pip3 install spotipy" and "sudo pip3 install dnspython" if you haven't already
 # -- Initialization section --
 app = Flask(__name__)
 
-app.secret_key = "kj3klmr13asd"
+app.secret_key = flask_key
 # name of database
 app.config['MONGO_DBNAME'] = 'users'
 
 # URI of database
-app.config['MONGO_URI'] = 'mongodb+srv://admin:xOCwocN6xNvzPPSB@cluster0.vlksj.mongodb.net/users?retryWrites=true&w=majority'
+app.config['MONGO_URI'] = f'mongodb+srv://{mongodb_username}:{mongodb_password}@cluster0.vlksj.mongodb.net/users?retryWrites=true&w=majority'
 
 
 mongo = PyMongo(app)
