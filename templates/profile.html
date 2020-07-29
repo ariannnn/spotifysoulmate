@@ -3,8 +3,39 @@
 <head>
 	<title>{{ name }}'s Profile</title>
 </head>
-
 <body>
+    <!-- These invisible spans are used to convert the python variable to html to javascript -->
+    <span id="songPercentage" style="display: none">{{song_percentage}}</span>
+    <span id="genrePercentage" style="display: none">{{genre_percentage}}</span>
+    <span id="artistPercentage" style="display: none">{{artist_percentage}}</span>
+
+    <!-- Doughnut chart -->
+	<canvas id="myChart" song="30" artist={{artist_percentage}}></canvas>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<script>
+		var ctx = document.getElementById('myChart').getContext('2d');
+        let songPercent = document.getElementById('songPercentage').innerHTML;
+        let genrePercent = document.getElementById('genrePercentage').innerHTML;
+        let artistPercent = document.getElementById('artistPercentage').innerHTML;
+	    var myDoughnutChart = new Chart(ctx, {
+	    // The type of chart we want to create
+	    type: 'doughnut',
+	    // The data for our dataset
+	    data: {
+	        labels: ['Songs', 'Genre', 'Artist', ],
+	        datasets: [{
+	            label: 'My First dataset',
+	            backgroundColor: ["#02de44", "#ffef0f", "#02f5e5"],
+	            hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"],
+	            data: [parseInt(songPercent), parseInt(genrePercent), parseInt(artistPercent)]
+	        }]
+	    },
+	    // Configuration options go here
+	    options: {}
+	});
+	</script>
+
+
     <!-- make this pretty later -->
 	<h1> {{ name }}'s Profile </h1>
     <p><u>Match Percentage:</u> {{ match_percentage }}</p>
