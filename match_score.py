@@ -158,20 +158,20 @@ def match_score_by_genre(p1, p2):
     return total_score
 
 #returns match_percentage in percent form
-def match_percentage(total_score, max_score):
+def match_percentage():
     return str(round(total_score / max_score * 100, 2)) + "%"
 
 #returns how much the matching songs in p1 and p2 contributed to the match_percentage.
 #for example, if match_percentage outputted 50%, and half of that 50% came from songs, then song_percentage would be 25%
 #the parameters are just to remind the user they should run one of the match functions before running the percentage functions ig. They're not rlly necessary tho
-def song_percentage(song_score, total_score):
-    return str(round(song_score / max_score * 100, 2)) + "%"
+def song_percentage():
+    return str(round(song_score / total_score * 100, 2)) + "%"
 
-def artist_percentage(artist_score, total_score):
-    return str(round(artist_score / max_score * 100, 2)) + "%"
+def artist_percentage():
+    return str(round(artist_score / total_score * 100, 2)) + "%"
 
-def genre_percentage(genre_score, total_score):
-    return str(round(genre_score / max_score * 100, 2)) + "%"
+def genre_percentage():
+    return str(round(genre_score / total_score * 100, 2)) + "%"
 
 #takes in two playlists and one string. The string match_method will either be "song", "artist", or "genre".
 #Playlists need 80% or more match percentage to return True.

@@ -49,25 +49,6 @@ def index():
         session["song_ids"] = songs
         list_of_songs = model.id_to_song(session["song_ids"])
         return render_template("overview.html", list_of_songs = list_of_songs)
-    
-
-#might be old code
-@app.route('/profile', methods=["GET", "POST"])
-def profile():
-    collection = mongo.db.songs
-    songs = collection.find({})
-    if request.method == "POST":
-        user_artist = request.form["artist"]
-        user_song = request.form["song"]
-        print(songs)
-        songs = mongo.db.songs
-        songs.insert({"song": "Test Day", "arist": "2020-12-10", "album": "test","genres": ["test", "test"]})
-        songs = collection.find({})
-        return render_template("profile.html",
-                                user_artist=user_artist,
-                                user_top_tracks=user_song, songs = songs)
-    else:
-        return render_template("profile.html", songs = songs)
 
 @app.route('/login', methods = ["GET","POST"])
 def login():
@@ -85,8 +66,7 @@ def overview():
     else:
         collection = mongo.db.profile
         user = list(collection.find({"email": session["email"]}))[0]
-        songs = user["song_ids"]
-        session["song_ids"] = songs
+        session["song_ids"] = user["song_ids"]
         list_of_songs = model.id_to_song(session["song_ids"]) #gives a list of dictionaries
         return render_template("overview.html", list_of_songs = list_of_songs)
 
@@ -107,16 +87,77 @@ def soulmates():
         artist_matching_users = []
         genre_matching_users = []
         for user in users:
+            song_percentages = {}
+            artist_percentages = {}
+            genre_percentages = {}
             if user["email"] != session["email"]:
                 p2 = model.id_to_song(user["song_ids"])
                 if len(p2) >= 5:
                     if match_score.is_matching(p1, p2, "song"):
                         song_matching_users.append(user)
+                        song_percentages["match_percentage"] = match_score.match_percentage()
+                        song_percentages["song_percentage"] = match_score.song_percentage()
+                        song_percentages["artist_percentage"] = match_score.artist_percentage()
+                        song_percentages["genre_percentage"] = match_score.genre_percentage()
+                        print(song_percentages)
+                        user["song_percentages"] = song_percentages
                     if match_score.is_matching(p1, p2, "artist"):
                         artist_matching_users.append(user)
+                        artist_percentages["match_percentage"] = match_score.match_percentage()
+                        artist_percentages["song_percentage"] = match_score.song_percentage()
+                        artist_percentages["artist_percentage"] = match_score.artist_percentage()
+                        artist_percentages["genre_percentage"] = match_score.genre_percentage()
+                        user["artist_percentages"] = artist_percentages
                     if match_score.is_matching(p1, p2, "genre"):
                         genre_matching_users.append(user)
+                        genre_percentages["match_percentage"] = match_score.match_percentage()
+                        genre_percentages["song_percentage"] = match_score.song_percentage()
+                        genre_percentages["artist_percentage"] = match_score.artist_percentage()
+                        genre_percentages["genre_percentage"] = match_score.genre_percentage()
+                        user["genre_percentages"] = genre_percentages
+            collection.update({"email": user["email"]}, {"$set": {"song_percentages": song_percentages}})
+            collection.update({"email": user["email"]}, {"$set": {"artist_percentages": artist_percentages}})
+            collection.update({"email": user["email"]}, {"$set": {"genre_percentages": genre_percentages}})
         return render_template("soulmates.html", song_matching_users = song_matching_users, artist_matching_users = artist_matching_users, genre_matching_users = genre_matching_users)
+
+@app.route('/profile/song_match/<name>')
+def profile_song_match(name):
+    collection = mongo.db.profile
+    user_being_searched = collection.find({"name": name})[0]
+    email = user_being_searched["email"]
+    bio = user_being_searched["bio"]
+    song_ids = user_being_searched["song_ids"]
+    match_percentage = user_being_searched["song_percentages"]["match_percentage"]
+    song_percentage = user_being_searched["song_percentages"]["song_percentage"]
+    artist_percentage = user_being_searched["song_percentages"]["artist_percentage"]
+    genre_percentage = user_being_searched["song_percentages"]["song_percentage"]
+    list_of_songs = model.id_to_song(song_ids)
+    return render_template("profile.html", name = name, email = email, bio = bio, list_of_songs = list_of_songs, match_percentage = match_percentage, song_percentage = song_percentage, artist_percentage = artist_percentage, genre_percentage = genre_percentage)
+
+@app.route('/profile/artist_match/<name>')
+def profile_artist_match(name):
+    collection = mongo.db.profile
+    user_being_searched = collection.find({"name": name})[0]
+    email = user_being_searched["email"]
+    bio = user_being_searched["bio"]
+    song_ids = user_being_searched["song_ids"]
+    match_percentage = user_being_searched["artist_percentages"]["match_percentage"]
+    artist_percentage = user_being_searched["artist_percentages"]["artist_percentage"]
+    genre_percentage = user_being_searched["artist_percentages"]["song_percentage"]
+    list_of_songs = model.id_to_song(song_ids)
+    return render_template("profile.html", name = name, email = email, bio = bio, list_of_songs = list_of_songs, match_percentage = match_percentage, artist_percentage = artist_percentage, genre_percentage = genre_percentage)
+
+@app.route('/profile/genre_match/<name>')
+def profile_genre_match(name):
+    collection = mongo.db.profile
+    user_being_searched = collection.find({"name": name})[0]
+    email = user_being_searched["email"]
+    bio = user_being_searched["bio"]
+    song_ids = user_being_searched["song_ids"]
+    match_percentage = user_being_searched["genre_percentages"]["match_percentage"]
+    genre_percentage = user_being_searched["genre_percentages"]["song_percentage"]
+    list_of_songs = model.id_to_song(song_ids)
+    return render_template("profile.html", name = name, email = email, bio = bio, list_of_songs = list_of_songs, match_percentage = match_percentage, genre_percentage = genre_percentage)
 
 @app.route('/help')
 def help():

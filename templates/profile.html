@@ -1,21 +1,34 @@
 <html>
-    <head>
-        <title>Your Profile</title>
-    </head>
-    <body>
-      <h1> Profile </h1>
-      <div class="event-list">
-        <ul>
-          {% for song in songs %}
-            <li>{{ song.song }} - {{ song.artist }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      <h1 style="text-align:center; color:greenyellow">Add a new song</h1>
-        <form method="post" action="/profile" style="text-align:center">
-            <input type="text" name="artist" placeholder="Enter the name of your artist."/ size="50">
-            <input type="text" name="song" placeholder="Enter the name of your song."/ size="50">
-            <input type="submit" value="Submit"/>
-        </form>
-    </body>
+
+<head>
+	<title>{{ name }}'s Profile</title>
+</head>
+
+<body>
+    <!-- make this pretty later -->
+	<h1> {{ name }}'s Profile </h1>
+    <p><u>Match Percentage:</u> {{ match_percentage }}</p>
+    <p><u>Song Percentage:</u> {{ song_percentage }}</p>
+    <p><u>Artist Percentage:</u> {{ artist_percentage }}</p>
+    <p><u>Genre Percentage:</u> {{ genre_percentage }}</p>
+    <p><u>Email:</u> {{ email }}</p>
+    <p><u>Bio:</u> {{ bio }}</p>
+    <p><u>Songs: </u></p>
+    {% for song in list_of_songs %}
+    <!-- display the song's artist and genre and album cover -->
+        <p>{{ song["track_name"] }} by {{ song["track_artists"][0][0] }}</p>
+        <p> Genres:
+            {% set counter = 0 %}
+            {% for genre in song["artist_genres"] %}
+                {{ genre }}
+                <!-- idk how to make counters work in jinja2 lol - Victor -->
+                <!-- {% if counter < song["artist_genres"]|length - 1: %}
+                    ,
+                {% endif %}  -->
+            {% endfor %}
+        </p>
+        <br>
+    {% endfor %}
+</body>
+
 </html>
