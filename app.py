@@ -123,42 +123,54 @@ def soulmates():
 
 @app.route('/profile/song_match/<name>')
 def profile_song_match(name):
-    collection = mongo.db.profile
-    user_being_searched = collection.find({"name": name})[0]
-    email = user_being_searched["email"]
-    bio = user_being_searched["bio"]
-    song_ids = user_being_searched["song_ids"]
-    match_percentage = user_being_searched["song_percentages"]["match_percentage"]
-    song_percentage = user_being_searched["song_percentages"]["song_percentage"]
-    artist_percentage = user_being_searched["song_percentages"]["artist_percentage"]
-    genre_percentage = user_being_searched["song_percentages"]["genre_percentage"]
-    list_of_songs = model.id_to_song(song_ids)
-    return render_template("profile.html", name = name, email = email, bio = bio, list_of_songs = list_of_songs, match_percentage = match_percentage, song_percentage = song_percentage, artist_percentage = artist_percentage, genre_percentage = genre_percentage)
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        collection = mongo.db.profile
+        user_being_searched = collection.find({"name": name})[0]
+        email = user_being_searched["email"]
+        bio = user_being_searched["bio"]
+        song_ids = user_being_searched["song_ids"]
+        match_percentage = user_being_searched["song_percentages"]["match_percentage"]
+        song_percentage = user_being_searched["song_percentages"]["song_percentage"]
+        artist_percentage = user_being_searched["song_percentages"]["artist_percentage"]
+        genre_percentage = user_being_searched["song_percentages"]["genre_percentage"]
+        list_of_songs = model.id_to_song(song_ids)
+        return render_template("profile.html", name = name, email = email, bio = bio, list_of_songs = list_of_songs, match_percentage = match_percentage, song_percentage = song_percentage, artist_percentage = artist_percentage, genre_percentage = genre_percentage)
 
 @app.route('/profile/artist_match/<name>')
 def profile_artist_match(name):
-    collection = mongo.db.profile
-    user_being_searched = collection.find({"name": name})[0]
-    email = user_being_searched["email"]
-    bio = user_being_searched["bio"]
-    song_ids = user_being_searched["song_ids"]
-    match_percentage = user_being_searched["artist_percentages"]["match_percentage"]
-    artist_percentage = user_being_searched["artist_percentages"]["artist_percentage"]
-    genre_percentage = user_being_searched["artist_percentages"]["genre_percentage"]
-    list_of_songs = model.id_to_song(song_ids)
-    return render_template("profile.html", name = name, email = email, bio = bio, list_of_songs = list_of_songs, match_percentage = match_percentage, song_percentage = "", artist_percentage = artist_percentage, genre_percentage = genre_percentage)
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        collection = mongo.db.profile
+        user_being_searched = collection.find({"name": name})[0]
+        email = user_being_searched["email"]
+        bio = user_being_searched["bio"]
+        song_ids = user_being_searched["song_ids"]
+        match_percentage = user_being_searched["artist_percentages"]["match_percentage"]
+        artist_percentage = user_being_searched["artist_percentages"]["artist_percentage"]
+        genre_percentage = user_being_searched["artist_percentages"]["genre_percentage"]
+        list_of_songs = model.id_to_song(song_ids)
+        return render_template("profile.html", name = name, email = email, bio = bio, list_of_songs = list_of_songs, match_percentage = match_percentage, song_percentage = "", artist_percentage = artist_percentage, genre_percentage = genre_percentage)
 
 @app.route('/profile/genre_match/<name>')
 def profile_genre_match(name):
-    collection = mongo.db.profile
-    user_being_searched = collection.find({"name": name})[0]
-    email = user_being_searched["email"]
-    bio = user_being_searched["bio"]
-    song_ids = user_being_searched["song_ids"]
-    match_percentage = user_being_searched["genre_percentages"]["match_percentage"]
-    genre_percentage = user_being_searched["genre_percentages"]["genre_percentage"]
-    list_of_songs = model.id_to_song(song_ids)
-    return render_template("profile.html", name = name, email = email, bio = bio, list_of_songs = list_of_songs, match_percentage = match_percentage, song_percentage = "", artist_percentage = "", genre_percentage = genre_percentage)
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        collection = mongo.db.profile
+        user_being_searched = collection.find({"name": name})[0]
+        email = user_being_searched["email"]
+        bio = user_being_searched["bio"]
+        song_ids = user_being_searched["song_ids"]
+        match_percentage = user_being_searched["genre_percentages"]["match_percentage"]
+        genre_percentage = user_being_searched["genre_percentages"]["genre_percentage"]
+        list_of_songs = model.id_to_song(song_ids)
+        return render_template("profile.html", name = name, email = email, bio = bio, list_of_songs = list_of_songs, match_percentage = match_percentage, song_percentage = "", artist_percentage = "", genre_percentage = genre_percentage)
 
 @app.route('/help')
 def help():
@@ -180,29 +192,53 @@ def profile_page():
 
 @app.route("/change/name")
 def change_name():
-    collection = mongo.db.profile
-    user = list(collection.find({"email": session["email"]}))[0]
-    return render_template("profile_page.html", user = user, is_changing_name = True, is_changing_bio = False)
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        collection = mongo.db.profile
+        user = list(collection.find({"email": session["email"]}))[0]
+        return render_template("profile_page.html", user = user, is_changing_name = True, is_changing_bio = False)
 
 @app.route("/change/bio")
 def change_bio():
-    collection = mongo.db.profile
-    user = list(collection.find({"email": session["email"]}))[0]
-    return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = True)
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        collection = mongo.db.profile
+        user = list(collection.find({"email": session["email"]}))[0]
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = True)
 
-@app.route("/update_database/name")
+@app.route("/update_database/name", methods = ["GET", "POST"])
 def update_database_name():
-    new_name = request.form["name"]
-    collection = mongo.db.profile
-    collection.update({"email": session["email"]}, {"$set", {"name": new_name}})
-    return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False)
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        collection = mongo.db.profile
+        user = list(collection.find({"email": session["email"]}))[0]
+        if request.method == "POST":
+            new_name = request.form["name"]
+            session["name"] = new_name
+            collection.update({"email": session["email"]}, {"$set": {"name": new_name}})
+            user = list(collection.find({"email": session["email"]}))[0] #this is actually not redundant code, I have to update user so it has the new name change
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False)
 
-@app.route("/update_database/bio")
+@app.route("/update_database/bio", methods = ["GET", "POST"])
 def update_database_bio():
-    new_bio = request.form["bio"]
-    collection = mongo.db.profile
-    collection.update({"email": session["email"]}, {"$set", {"bio": new_bio}})
-    return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False)
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        collection = mongo.db.profile
+        user = list(collection.find({"email": session["email"]}))[0]
+        if request.method == "POST":
+            new_bio = request.form["bio"]
+            session["bio"] = new_bio
+            collection.update({"email": session["email"]}, {"$set": {"bio": new_bio}})
+            user = list(collection.find({"email": session["email"]}))[0] #this is actually not redundant code, I have to update user so it has the new bio change
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False)
 
 @app.route('/sign_in', methods = ["GET", "POST"])
 def user_signin():
@@ -257,42 +293,55 @@ def store_users(): #this is the route for how the user creates an account
 
 @app.route("/search", methods = ["GET", "POST"])
 def search():
-    error_message = ""
-    if request.method == "POST":
-        song_query = request.form["song_query"]
-        artist_query = request.form["artist_query"]
-        song_ids = model.search_for_track_and_artist(song_query, artist_query) #gives a list of up to 10 song_ids that have similar names to the search query
-        songs_found = model.id_to_song(song_ids) #gives a list of dictionaries
-        
-        collection = mongo.db.profile
-        user = list(collection.find({"email": session["email"]}))[0]
-        songs = user["song_ids"]
-        session["song_ids"] = songs
-
-        if (len(songs_found) == 0):
-            error_message = "No songs found"
-
-        list_of_songs = model.id_to_song(session["song_ids"])
-        return render_template("overview.html", songs_found = songs_found, list_of_songs = list_of_songs, error_message = error_message)
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
     else:
-        return "Error. Search for a song using the button, not by manually typing in the URL."
+        error_message = ""
+        if request.method == "POST":
+            song_query = request.form["song_query"]
+            artist_query = request.form["artist_query"]
+            song_ids = model.search_for_track_and_artist(song_query, artist_query) #gives a list of up to 10 song_ids that have similar names to the search query
+            songs_found = model.id_to_song(song_ids) #gives a list of dictionaries
+            
+            collection = mongo.db.profile
+            user = list(collection.find({"email": session["email"]}))[0]
+            songs = user["song_ids"]
+            session["song_ids"] = songs
+
+            if (len(songs_found) == 0):
+                error_message = "No songs found"
+
+            list_of_songs = model.id_to_song(session["song_ids"])
+            return render_template("overview.html", songs_found = songs_found, list_of_songs = list_of_songs, error_message = error_message)
+        else:
+            list_of_songs = model.id_to_song(session["song_ids"])
+            return render_template("overview.html", list_of_songs = list_of_songs, error_message = error_message)
 
 @app.route("/addsong/<song_id>")
 def addsong(song_id):
-    collection = mongo.db.profile
-    user = list(collection.find({"email": session["email"]}))[0]
-    if song_id not in user["song_ids"]:
-        collection.update({"email": session["email"]}, {"$push": {"song_ids": song_id} })
-        session["song_ids"].append(song_id)
-    list_of_songs = model.id_to_song(session["song_ids"])
-    return render_template("overview.html", list_of_songs = list_of_songs)
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        collection = mongo.db.profile
+        user = list(collection.find({"email": session["email"]}))[0]
+        if song_id not in user["song_ids"]:
+            collection.update({"email": session["email"]}, {"$push": {"song_ids": song_id} })
+            session["song_ids"].append(song_id)
+        list_of_songs = model.id_to_song(session["song_ids"])
+        return render_template("overview.html", list_of_songs = list_of_songs)
 
 @app.route("/removesong/<song_id>")
 def removesong(song_id):
-    collection = mongo.db.profile
-    collection.update({"email": session["email"]}, {"$pull": {"song_ids": song_id} })
-    user = list(collection.find({"email": session["email"]}))[0]
-    songs = user["song_ids"]
-    session["song_ids"] = songs
-    list_of_songs = model.id_to_song(session["song_ids"])
-    return render_template("overview.html", list_of_songs = list_of_songs)
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        collection = mongo.db.profile
+        collection.update({"email": session["email"]}, {"$pull": {"song_ids": song_id} })
+        user = list(collection.find({"email": session["email"]}))[0]
+        songs = user["song_ids"]
+        session["song_ids"] = songs
+        list_of_songs = model.id_to_song(session["song_ids"])
+        return render_template("overview.html", list_of_songs = list_of_songs)

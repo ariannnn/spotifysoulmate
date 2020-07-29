@@ -48,7 +48,7 @@
     <!-- Lists out the name. Displays a different thing depending on whether you are changing the name or not. -->
     {% if is_changing_name: %}
         <p>Name: 
-            <form action = "/update_database/name">
+            <form method = "post" action = "/update_database/name">
                 <input type = "text" name = "name" value = "{{ user['name'] }}">
                 <input type = "submit" value = "Submit">
             </form>
@@ -60,7 +60,7 @@
     <!-- Lists out the bio. Displays a different thing depending on whether you are changing the bio or not. -->
     {% if is_changing_bio: %}
         <p>Bio: 
-            <form action = "/update_database/bio">
+            <form method = "post" action = "/update_database/bio">
                 <input type = "text" name = "bio" value = "{{ user['bio'] }}">
                 <input type = "submit" value = "Submit">
             </form>
