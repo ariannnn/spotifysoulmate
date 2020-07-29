@@ -121,6 +121,7 @@ def help():
 
 @app.route('/sign_in', methods = ["GET", "POST"])
 def user_signin():
+    error_message = ""
     global email
     session.clear()
     if request.method == "POST":
@@ -129,8 +130,8 @@ def user_signin():
         collection = mongo.db.profile
         user = list(collection.find({"email": email}))
         if (len(user) == 0):
-            print("hello")
-            return render_template("login.html")
+            error_message = "Invalid email or password."
+            return render_template("login.html", error_message = error_message)
         elif bcrypt.hashpw(password.encode('utf-8'), user[0]['password'].encode('utf-8')) == user[0]["password"].encode('utf-8'):
             session["email"] = user[0]["email"]
             session["name"] = user[0]["name"]
@@ -139,13 +140,15 @@ def user_signin():
             list_of_songs = model.id_to_song(session["song_ids"]) #gives a list of dictionaries
             return render_template("overview.html", list_of_songs = list_of_songs)
         else:
-            return render_template("login.html")
+            error_message = "Invalid email or password."
+            return render_template("login.html", error_message = error_message)
     else:
         return render_template("login.html")
 
 @app.route('/store_users', methods=["GET", "POST"])
 def store_users(): #this is the route for how the user creates an account
     global email
+    error_message = ""
     if request.method == "POST":
         name = request.form["inputName"]
         email = request.form["inputEmail"]
@@ -162,12 +165,14 @@ def store_users(): #this is the route for how the user creates an account
             list_of_songs = model.id_to_song(session["song_ids"])
             return render_template("overview.html", list_of_songs = list_of_songs)
         else:
-            return render_template("signup.html")
+            error_message = "This email is already being used by an account."
+            return render_template("signup.html", error_message = error_message)
     else:
         return render_template("signup.html")
 
 @app.route("/search", methods = ["GET", "POST"])
 def search():
+    error_message = ""
     if request.method == "POST":
         song_query = request.form["song_query"]
         artist_query = request.form["artist_query"]
@@ -179,8 +184,11 @@ def search():
         songs = user["song_ids"]
         session["song_ids"] = songs
 
+        if (len(songs_found) == 0):
+            error_message = "No songs found"
+
         list_of_songs = model.id_to_song(session["song_ids"])
-        return render_template("overview.html", songs_found = songs_found, list_of_songs = list_of_songs)
+        return render_template("overview.html", songs_found = songs_found, list_of_songs = list_of_songs, error_message = error_message)
     else:
         return "Error. Search for a song using the button, not by manually typing in the URL."
 
