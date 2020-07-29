@@ -11,7 +11,7 @@
 		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 	<link rel="stylesheet" href="../static/css/style.css" />
 
-	<title>Help</title>
+	<title>{{ name }}'s Profile</title>
 </head>
 
 <body>
@@ -43,37 +43,71 @@
             </form>
 			</div>
 	</nav>
-    <!-- make this pretty later -->
+
+
+	<!-- These invisible spans are used to convert the python variable to html to javascript -->
+	<span id="songPercentage" style="display: none">{{song_percentage}}</span>
+	<span id="genrePercentage" style="display: none">{{genre_percentage}}</span>
+	<span id="artistPercentage" style="display: none">{{artist_percentage}}</span>
+
+	<!-- Doughnut chart -->
+	<canvas id="myChart" song="30" artist={{artist_percentage}}></canvas>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<script>
+		var ctx = document.getElementById('myChart').getContext('2d');
+        let songPercent = document.getElementById('songPercentage').innerHTML;
+        let genrePercent = document.getElementById('genrePercentage').innerHTML;
+        let artistPercent = document.getElementById('artistPercentage').innerHTML;
+	    var myDoughnutChart = new Chart(ctx, {
+	    // The type of chart we want to create
+	    type: 'doughnut',
+	    // The data for our dataset
+	    data: {
+	        labels: ['Songs', 'Genre', 'Artist', ],
+	        datasets: [{
+	            label: 'My First dataset',
+	            backgroundColor: ["#02de44", "#ffef0f", "#02f5e5"],
+	            hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870"],
+	            data: [parseInt(songPercent), parseInt(genrePercent), parseInt(artistPercent)]
+	        }]
+	    },
+	    // Configuration options go here
+	    options: {}
+	});
+	</script>
+
+
+	<!-- make this pretty later -->
 	<h1> {{ name }}'s Profile </h1>
-    <p><u>Match Percentage:</u> {{ match_percentage }}</p>
-    {% if song_percentage != "": %}
-        <p><u>Song Percentage:</u> {{ song_percentage }}</p>
-    {% endif %}
+	<p><u>Match Percentage:</u> {{ match_percentage }}</p>
+	{% if song_percentage != "": %}
+	<p>{{ song_percentage }} of the match percentage was from your similar song tastes.</p>
+	{% endif %}
 
-    {% if artist_percentage != "": %}
-        <p><u>Artist Percentage:</u> {{ artist_percentage }}</p>
-    {% endif %}
+	{% if artist_percentage != "": %}
+	<p>{{ artist_percentage }} of the match percentage was from your similar artist tastes.</p>
+	{% endif %}
 
-    {% if genre_percentage != "": %}
-        <p><u>Genre Percentage:</u> {{ genre_percentage }}</p>
-    {% endif %}
-    <p><u>Email:</u> {{ email }}</p>
-    <p><u>Bio:</u> {{ bio }}</p>
-    <p><u>Songs: </u></p>
-    {% for song in list_of_songs %}
-    <!-- display the song's artist and genre and album cover -->
-        <p>{{ song["track_name"] }} by {{ song["track_artists"][0][0] }}</p>
-        <p> Genres:
-            {% set counter = 0 %}
-            {% for genre in song["artist_genres"] %}
-                {{ genre }}
-                <!-- idk how to make counters work in jinja2 lol - Victor -->
-                <!-- {% if counter < song["artist_genres"]|length - 1: %}
+	{% if genre_percentage != "": %}
+	<p>{{ genre_percentage }} of the match percentage was from your similar genre tastes.</p>
+	{% endif %}
+	<p><u>Email:</u> {{ email }}</p>
+	<p><u>Bio:</u> {{ bio }}</p>
+	<p><u>Songs: </u></p>
+	{% for song in list_of_songs %}
+	<!-- display the song's artist and genre and album cover -->
+	<p>{{ song["track_name"] }} by {{ song["track_artists"][0][0] }}</p>
+	<p> Genres:
+		{% set counter = 0 %}
+		{% for genre in song["artist_genres"] %}
+		{{ genre }}
+		<!-- idk how to make counters work in jinja2 lol - Victor -->
+		<!-- {% if counter < song["artist_genres"]|length - 1: %}
                     ,
                 {% endif %}  -->
-            {% endfor %}
-        </p>
-        <br>
+		{% endfor %}
+	</p>
+	<br>
     {% endfor %}
 </body>
 
