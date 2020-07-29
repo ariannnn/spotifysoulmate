@@ -186,9 +186,10 @@ def profile_page():
         session.clear()
         return render_template("login.html")
     else:
+        error_message = ""
         collection = mongo.db.profile
         user = list(collection.find({"email": session["email"]}))[0]
-        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False)
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = False, error_message = error_message)
 
 @app.route("/change/name")
 def change_name():
@@ -196,9 +197,10 @@ def change_name():
         session.clear()
         return render_template("login.html")
     else:
+        error_message = ""
         collection = mongo.db.profile
         user = list(collection.find({"email": session["email"]}))[0]
-        return render_template("profile_page.html", user = user, is_changing_name = True, is_changing_bio = False)
+        return render_template("profile_page.html", user = user, is_changing_name = True, is_changing_bio = False, is_changing_pw = False, error_message = error_message)
 
 @app.route("/change/bio")
 def change_bio():
@@ -206,9 +208,21 @@ def change_bio():
         session.clear()
         return render_template("login.html")
     else:
+        error_message = ""
         collection = mongo.db.profile
         user = list(collection.find({"email": session["email"]}))[0]
-        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = True)
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = True, is_changing_pw = False, error_message = error_message)
+
+@app.route("/change/pw")
+def change_pw():
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        error_message = ""
+        collection = mongo.db.profile
+        user = list(collection.find({"email": session["email"]}))[0]
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = True, error_message = error_message)
 
 @app.route("/update_database/name", methods = ["GET", "POST"])
 def update_database_name():
@@ -216,6 +230,7 @@ def update_database_name():
         session.clear()
         return render_template("login.html")
     else:
+        error_message = ""
         collection = mongo.db.profile
         user = list(collection.find({"email": session["email"]}))[0]
         if request.method == "POST":
@@ -223,7 +238,7 @@ def update_database_name():
             session["name"] = new_name
             collection.update({"email": session["email"]}, {"$set": {"name": new_name}})
             user = list(collection.find({"email": session["email"]}))[0] #this is actually not redundant code, I have to update user so it has the new name change
-        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False)
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = False, error_message = error_message)
 
 @app.route("/update_database/bio", methods = ["GET", "POST"])
 def update_database_bio():
@@ -231,6 +246,7 @@ def update_database_bio():
         session.clear()
         return render_template("login.html")
     else:
+        error_message = ""
         collection = mongo.db.profile
         user = list(collection.find({"email": session["email"]}))[0]
         if request.method == "POST":
@@ -238,7 +254,32 @@ def update_database_bio():
             session["bio"] = new_bio
             collection.update({"email": session["email"]}, {"$set": {"bio": new_bio}})
             user = list(collection.find({"email": session["email"]}))[0] #this is actually not redundant code, I have to update user so it has the new bio change
-        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False)
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = False, error_message = error_message)
+
+@app.route("/update_database/pw", methods = ["GET", "POST"])
+def update_database_pw():
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        error_message = ""
+        collection = mongo.db.profile
+        user = list(collection.find({"email": session["email"]}))[0]
+        if request.method == "POST":
+            old_pw = request.form["old_pw"]
+            new_pw_1 = request.form["new_pw_1"]
+            new_pw_2 = request.form["new_pw_2"]
+            if bcrypt.hashpw(old_pw.encode('utf-8'), user['password'].encode('utf-8')) == user["password"].encode('utf-8'):
+                if new_pw_1 == new_pw_2:
+                    collection.update({"email": session["email"]}, {"$set": {"password": str(bcrypt.hashpw(new_pw_1.encode("utf-8"), bcrypt.gensalt()), 'utf-8')}})
+                    user = list(collection.find({"email": session["email"]}))[0] #this is actually not redundant code, I have to update user so it has the new pw change
+                    return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = False, error_message = error_message)
+                else:
+                    error_message = "Passwords do not match."
+                    return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = True, error_message = error_message)
+            else:
+                error_message = "You did not input your old password correctly."
+                return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = True, error_message = error_message)
 
 @app.route('/sign_in', methods = ["GET", "POST"])
 def user_signin():

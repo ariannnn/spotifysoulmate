@@ -69,6 +69,23 @@
         <p>Bio: {{ user["bio"] }} - <a href = "/change/bio">Edit</a></p>
     {% endif %}
 
+    <!-- Displays a different thing depending on whether you are changing the password or not. -->
+    {% if is_changing_pw: %}
+        <form method = "post" action = "/update_database/pw">
+            <input type = "text" name = "old_pw" placeholder = "Enter your old password">
+            <input type = "text" name = "new_pw_1" placeholder = "Enter your new password">
+            <input type = "text" name = "new_pw_2" placeholder = "Confirm password">
+            <input type = "submit" value = "Submit">
+        </form>
+        {% if error_message != "": %}
+            <div class="mb-4">
+                <h1 class="h5 mb-3 font-weight-normal text-danger">{{error_message}}</h1>
+            </div>
+        {% endif %}
+    {% else: %}
+        <p><a href = "/change/pw">Change Password</a></p>
+    {% endif %}
+
     
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
