@@ -43,37 +43,19 @@
     <div class="ml-3" id=profile>
  
  
-        <h4>Welcome {{session["name"]}}</h4>
+        <h4>Welcome {{session["name"].capitalize()}}</h4>
         <h6>{{session["bio"]}}</h6>
      
-<!-- Searchbar Section -->
-    <br />
-    <div class=" ml-3 p-1 w-50 bg-light rounded shadow-sm mb-4">
-        <div class="input-group">
-            <form method = "post" action = "/search">
-                <input type="search" name = "song_query" placeholder="Search for a song" required = "" aria-describedby="button-addon2" class="form-control border-0 bg-light">
-                <input type="search" name = "artist_query" placeholder="List the artist name" required = "" aria-describedby="button-addon2" class="form-control border-0 bg-light">
-                <button type = "submit" class = "btn"> Search </button>
-            </form>
-        </div>
-    </div>
-    <br>
-    <!-- Listing songs searched -->
-    <div class=ml-3>
-        <h3> Songs Searched </h3>
-        {% for song_dict in songs_found %}
-            <p>{{ song_dict["track_name"] }}</p>
-            <p>by {{ song_dict["track_artists"][0][0] }} - <a href = "/addsong/{{ song_dict['song_id'] }}">Add</a> </p>
-        {% endfor %}
     </div>
     <br>
     
         <!-- Listing favorite tracks -->
-        <div class = "col-md-6">
-        <h3 class = "ml=3"> Favorite Songs </h3>
+        <div class = "row">
+        <div class = "col-md-6 ml-3">
+        <h3 class = "ml"> Favorite Songs </h3>
             <div class="songlist row">
          {% for song_dict in list_of_songs %}
-            <div class = "col-3">
+            <div class = "col-3 zoom text-center">
                 <a href = "https://open.spotify.com/track/{{song_dict['song_id']}}" target = "_blank">
                 <img class="song-card" src={{song_dict["album_art_url"]}} width= 150px/>
                 <br />
@@ -94,12 +76,43 @@
  
  
         </div>
+    
+    
+ <!-- Searchbar Section -->
+    <div class = "col-md-5">
+        <p></p>
+        <h3> Add Songs </h3>
+        <div class="input-group">
+            <div class=" ml-4 p-1 w-100 bg-light rounded shadow-sm">
+            <form method = "post" action = "/search">
+                <input type="search" name = "song_query" placeholder="Search for a song" required = "" aria-describedby="button-addon2" class="form-control border-0 bg-light">
+                
+                <input type="search" name = "artist_query" placeholder="List the artist name" required = "" aria-describedby="button-addon2" class="form-control border-0 bg-light">
+                <button type = "submit" class = "btn"> Search </button>
+            </form>
+        </div>
     </div>
-        <!-- {% for song_dict in list_of_songs %}
-<p>{{ song_dict["track_name"] }}</p>
-{% endfor %} -->
+    <br>
+    <!-- Listing songs searched -->
+    <div class= "ml-2">
+        <h3> Songs Searched </h3>
+        <div class = row>
+        {% for song_dict in songs_found %}
+            <div class = "col-4 text-center">
+                <a href = "https://open.spotify.com/track/{{song_dict['song_id']}}" target = "_blank">
+                <img class="song-card" src={{song_dict["album_art_url"]}} width= 150px/>
+                <br />
+                <span class = "as">{{ song_dict["track_name"] }}</span>
+                <br />
+                {{ song_dict["track_artists"][0][0] }}
+                </a>
+                <a href = "/addsong/{{ song_dict['song_id'] }}"> Add </a>
+            </div>
+        {% endfor %}
+        </div>
     </div>
- 
+    </div>
+    </div>
  
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
