@@ -1,10 +1,48 @@
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-	<title>{{ name }}'s Profile</title>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<link rel="stylesheet" href="../static/css/style.css" />
+
+	<title>Help</title>
 </head>
 
 <body>
+	<nav class="navbar navcolor navbar-expand-lg">
+		<a class="navbar-brand"
+			href="#"><img src = {{ url_for('static', filename='Untitled-1.png') }} width = "125" /></a>
+			<button class="navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/overview">Overview</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/soulmates">Find Soulmates</a>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="/help">Help</a>
+					</li>
+					<li class="nav-item active">
+						<a class="nav-link" href="/profile_page">Profile Page</a>
+					</li>
+
+				</ul>
+				<form method="get" action="/sign_in">
+					<input type = "submit" value = "Log Out" class = "btn btn-outline-success ml-lg-4 my-sm-2"/>
+            </form>
+			</div>
+	</nav>
     <!-- make this pretty later -->
 	<h1> {{ name }}'s Profile </h1>
     <p><u>Match Percentage:</u> {{ match_percentage }}</p>
