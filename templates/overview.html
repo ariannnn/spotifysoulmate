@@ -7,8 +7,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  
     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" type="text/css" href= "{{ url_for('static', filename='style.css') }}" />
+<style>
+
+a{
+  color:black;
+}
+
+.navcolor{
+  background-color: white
+  font-family: sans-serif;
+
+}
+
+body{
+  background-color: white;
+  font-family: sans-serif;
+
+}
+
+.play-hover {
+	position: relative;
+	display: inline-block;
+}
+
+.play-hover:hover .play {
+	display: block;
+}
+
+.play {
+  color: white;
+  font-size: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+  display: none;
+}
+
+.play a {
+	color: #eee;
+  opacity: 0.6;
+}
+
+.song-card{
+    border-radius:10px;
+    transition: transform .3s ease;
+}
+
+.song-card:hover {
+  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+</style>
     <title>Dashboard</title>
 </head>
  
@@ -55,9 +111,12 @@
         <h3 class = "ml"> Favorite Songs </h3>
             <div class="songlist row">
          {% for song_dict in list_of_songs %}
-            <div class = "col-3 zoom text-center">
-                <a href = "https://open.spotify.com/track/{{song_dict['song_id']}}" target = "_blank">
+            <div class = "col-3 text-center">
+                <div class = "play-hover">
+                <!-- <a href = "https://open.spotify.com/track/{{song_dict['song_id']}}" target = "_blank"> -->
                 <img class="song-card" src={{song_dict["album_art_url"]}} width= 150px/>
+                	<div class="play"><a href="https://open.spotify.com/track/{{song_dict['song_id']}}" target = "_blank"><i class="fa fa-play fa-sm"></i></a></div>
+                    </div>
                 <br />
                 <span class = "as">{{ song_dict["track_name"] }}</span>
                 <br />
