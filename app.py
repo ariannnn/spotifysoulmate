@@ -81,8 +81,10 @@ def soulmates():
         logined_user = list(collection.find({"email": session["email"]}))[0]
         session["song_ids"] = logined_user["song_ids"]
         p1 = model.id_to_song(session["song_ids"])
+        error_message = ""
         if len(p1) < 5:
-            return "You must have at least 5 songs if you want to match!"
+            error_message = "You must have at least 5 songs in your playlist to match with a soulmate."
+            return render_template("soulmates.html", error_message = error_message)
         song_matching_users = []
         artist_matching_users = []
         genre_matching_users = []
@@ -118,7 +120,7 @@ def soulmates():
             collection.update({"email": user["email"]}, {"$set": {"song_percentages": song_percentages}})
             collection.update({"email": user["email"]}, {"$set": {"artist_percentages": artist_percentages}})
             collection.update({"email": user["email"]}, {"$set": {"genre_percentages": genre_percentages}})
-        return render_template("soulmates.html", song_matching_users = song_matching_users, artist_matching_users = artist_matching_users, genre_matching_users = genre_matching_users)
+        return render_template("soulmates.html", song_matching_users = song_matching_users, artist_matching_users = artist_matching_users, genre_matching_users = genre_matching_users, error_message = error_message)
 
 @app.route('/profile/song_match/<name>')
 def profile_song_match(name):

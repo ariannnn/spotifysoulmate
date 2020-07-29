@@ -41,25 +41,30 @@
     <!-- Soulmate Matching -->
     <br>
     <h3> Matches </h3>
+	<div class="mb-4">
+		<h1 class="h5 mb-3 font-weight-normal text-danger">{{error_message}}</h1>
+	</div>
     <div>
         <!-- Insert flask code to display soulmate matches and list matching songs/artists -->
-        <h4>By Songs</h4>
-        {% for user in song_matching_users %}
-            <p> <a href = "/profile/song_match/{{ user['name'] }}">{{ user["name"] }} </a> </p>
-            <p> - You matched by {{ user["song_percentages"]["match_percentage"] }}</p>
-        {% endfor %}
+        {% if error_message == "": %}
+            <h4>By Songs</h4>
+            {% for user in song_matching_users %}
+                <p> <a href = "/profile/song_match/{{ user['name'] }}">{{ user["name"] }} </a> </p>
+                <p> - You matched by {{ user["song_percentages"]["match_percentage"] }}</p>
+            {% endfor %}
 
-        <h4>By Artists</h4>
-        {% for user in artist_matching_users %}
-            <p> <a href = "/profile/artist_match/{{ user['name'] }}">{{ user["name"] }} </a> </p>
-            <p> - You matched by {{ user["artist_percentages"]["match_percentage"] }}</p>
-        {% endfor %}
+            <h4>By Artists</h4>
+            {% for user in artist_matching_users %}
+                <p> <a href = "/profile/artist_match/{{ user['name'] }}">{{ user["name"] }} </a> </p>
+                <p> - You matched by {{ user["artist_percentages"]["match_percentage"] }}</p>
+            {% endfor %}
 
-        <h4>By Genres</h4>
-        {% for user in genre_matching_users %}
-            <p> <a href = "/profile/genre_match/{{ user['name'] }}">{{ user["name"] }} </a> </p>
-            <p> - You matched by {{ user["genre_percentages"]["match_percentage"] }}</p>
-        {% endfor %}
+            <h4>By Genres</h4>
+            {% for user in genre_matching_users %}
+                <p> <a href = "/profile/genre_match/{{ user['name'] }}">{{ user["name"] }} </a> </p>
+                <p> - You matched by {{ user["genre_percentages"]["match_percentage"] }}</p>
+            {% endfor %}
+        {% endif %}
     </div>
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
