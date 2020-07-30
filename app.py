@@ -138,6 +138,7 @@ def profile_song_match(name):
         song_percentage = user_being_searched["song_percentages"]["song_percentage"]
         artist_percentage = user_being_searched["song_percentages"]["artist_percentage"]
         genre_percentage = user_being_searched["song_percentages"]["genre_percentage"]
+        user_pfp = user_being_searched["profile_pic_url"]
 
         #these are the variables for the user that is logged in
         my_user = collection.find({"email": session["email"]})[0]
@@ -147,7 +148,7 @@ def profile_song_match(name):
             if song in my_song_ids:
                 common_song_ids.append(song)
         list_of_common_songs = model.id_to_song(common_song_ids)
-        return render_template("profile.html", name = name, email = user_being_searched_email, bio = bio, list_of_common_songs = list_of_common_songs, match_percentage = match_percentage, song_percentage = song_percentage, artist_percentage = artist_percentage, genre_percentage = genre_percentage)
+        return render_template("profile.html", user_pfp = user_pfp, name = name, email = user_being_searched_email, bio = bio, list_of_common_songs = list_of_common_songs, match_percentage = match_percentage, song_percentage = song_percentage, artist_percentage = artist_percentage, genre_percentage = genre_percentage)
 
 @app.route('/profile/artist_match/<name>')
 def profile_artist_match(name):
@@ -165,6 +166,7 @@ def profile_artist_match(name):
         match_percentage = user_being_searched["artist_percentages"]["match_percentage"]
         artist_percentage = user_being_searched["artist_percentages"]["artist_percentage"]
         genre_percentage = user_being_searched["artist_percentages"]["genre_percentage"]
+        user_pfp = user_being_searched["profile_pic_url"]
         
         #these are the variables for the user that is logged in
         my_user = collection.find({"email": session["email"]})[0]
@@ -174,7 +176,7 @@ def profile_artist_match(name):
             if song in my_song_ids:
                 common_song_ids.append(song)
         list_of_common_songs = model.id_to_song(common_song_ids)
-        return render_template("profile.html", name = name, email = user_being_searched_email, bio = bio, list_of_common_songs = list_of_common_songs, match_percentage = match_percentage, song_percentage = "", artist_percentage = artist_percentage, genre_percentage = genre_percentage)
+        return render_template("profile.html", user_pfp = user_pfp, name = name, email = user_being_searched_email, bio = bio, list_of_common_songs = list_of_common_songs, match_percentage = match_percentage, song_percentage = "", artist_percentage = artist_percentage, genre_percentage = genre_percentage)
 
 @app.route('/profile/genre_match/<name>')
 def profile_genre_match(name):
@@ -191,6 +193,7 @@ def profile_genre_match(name):
         user_song_ids = user_being_searched["song_ids"]
         match_percentage = user_being_searched["genre_percentages"]["match_percentage"]
         genre_percentage = user_being_searched["genre_percentages"]["genre_percentage"]
+        user_pfp = user_being_searched["profile_pic_url"]
         
         #these are the variables for the user that is logged in
         my_user = collection.find({"email": session["email"]})[0]
@@ -200,7 +203,7 @@ def profile_genre_match(name):
             if song in my_song_ids:
                 common_song_ids.append(song)
         list_of_common_songs = model.id_to_song(common_song_ids)
-        return render_template("profile.html", name = name, email = user_being_searched_email, bio = bio, list_of_common_songs = list_of_common_songs, match_percentage = match_percentage, song_percentage = "", artist_percentage = "", genre_percentage = genre_percentage)
+        return render_template("profile.html", user_pfp = user_pfp, name = name, email = user_being_searched_email, bio = bio, list_of_common_songs = list_of_common_songs, match_percentage = match_percentage, song_percentage = "", artist_percentage = "", genre_percentage = genre_percentage)
 
 @app.route('/help')
 def help():
@@ -219,7 +222,7 @@ def profile_page():
         error_message = ""
         collection = mongo.db.profile
         user = list(collection.find({"email": session["email"]}))[0]
-        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = False, error_message = error_message)
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = False, is_changing_pfp = False, error_message = error_message)
 
 @app.route("/change/name")
 def change_name():
@@ -230,7 +233,7 @@ def change_name():
         error_message = ""
         collection = mongo.db.profile
         user = list(collection.find({"email": session["email"]}))[0]
-        return render_template("profile_page.html", user = user, is_changing_name = True, is_changing_bio = False, is_changing_pw = False, error_message = error_message)
+        return render_template("profile_page.html", user = user, is_changing_name = True, is_changing_bio = False, is_changing_pw = False, is_changing_pfp = False, error_message = error_message)
 
 @app.route("/change/bio")
 def change_bio():
@@ -241,7 +244,7 @@ def change_bio():
         error_message = ""
         collection = mongo.db.profile
         user = list(collection.find({"email": session["email"]}))[0]
-        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = True, is_changing_pw = False, error_message = error_message)
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = True, is_changing_pw = False, is_changing_pfp = False, error_message = error_message)
 
 @app.route("/change/pw")
 def change_pw():
@@ -252,7 +255,18 @@ def change_pw():
         error_message = ""
         collection = mongo.db.profile
         user = list(collection.find({"email": session["email"]}))[0]
-        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = True, error_message = error_message)
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = True, is_changing_pfp = False, error_message = error_message)
+
+@app.route("/change/pfp")
+def change_pfp():
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        error_message = ""
+        collection = mongo.db.profile
+        user = list(collection.find({"email": session["email"]}))[0]
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = False, is_changing_pfp = True, error_message = error_message)
 
 @app.route("/update_database/name", methods = ["GET", "POST"])
 def update_database_name():
@@ -268,7 +282,7 @@ def update_database_name():
             session["name"] = new_name
             collection.update({"email": session["email"]}, {"$set": {"name": new_name}})
             user = list(collection.find({"email": session["email"]}))[0] #this is actually not redundant code, I have to update user so it has the new name change
-        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = False, error_message = error_message)
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = False, is_changing_pfp = False, error_message = error_message)
 
 @app.route("/update_database/bio", methods = ["GET", "POST"])
 def update_database_bio():
@@ -284,7 +298,22 @@ def update_database_bio():
             session["bio"] = new_bio
             collection.update({"email": session["email"]}, {"$set": {"bio": new_bio}})
             user = list(collection.find({"email": session["email"]}))[0] #this is actually not redundant code, I have to update user so it has the new bio change
-        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = False, error_message = error_message)
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = False, is_changing_pfp = False, error_message = error_message)
+
+@app.route("/update_database/pfp", methods = ["GET", "POST"])
+def update_database_pfp():
+    if session.get("email") == None or session["email"] != email:
+        session.clear()
+        return render_template("login.html")
+    else:
+        error_message = ""
+        collection = mongo.db.profile
+        user = list(collection.find({"email": session["email"]}))[0]
+        if request.method == "POST":
+            new_pfp_url = request.form["pfp_url"]
+            collection.update({"email": session["email"]}, {"$set": {"profile_pic_url": new_pfp_url}})
+            user = list(collection.find({"email": session["email"]}))[0] #this is actually not redundant code, I have to update user so it has the new bio change
+        return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = False, is_changing_pfp = False, error_message = error_message)
 
 @app.route("/update_database/pw", methods = ["GET", "POST"])
 def update_database_pw():
@@ -303,13 +332,13 @@ def update_database_pw():
                 if new_pw_1 == new_pw_2:
                     collection.update({"email": session["email"]}, {"$set": {"password": str(bcrypt.hashpw(new_pw_1.encode("utf-8"), bcrypt.gensalt()), 'utf-8')}})
                     user = list(collection.find({"email": session["email"]}))[0] #this is actually not redundant code, I have to update user so it has the new pw change
-                    return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = False, error_message = error_message)
+                    return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = False, is_changing_pfp = False, error_message = error_message)
                 else:
                     error_message = "Passwords do not match."
-                    return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = True, error_message = error_message)
+                    return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = True, is_changing_pfp = False, error_message = error_message)
             else:
                 error_message = "You did not input your old password correctly."
-                return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = True, error_message = error_message)
+                return render_template("profile_page.html", user = user, is_changing_name = False, is_changing_bio = False, is_changing_pw = True, is_changing_pfp = False, error_message = error_message)
 
 @app.route('/sign_in', methods = ["GET", "POST"])
 def user_signin():
@@ -348,7 +377,7 @@ def store_users(): #this is the route for how the user creates an account
         collection = mongo.db.profile
         user = list(collection.find({"email": email}))
         if (len(user) == 0):
-            collection.insert({"password": str(bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()), 'utf-8'), "email": email, "name": name,"bio": "I am feeling good", "song_ids": []})
+            collection.insert({"password": str(bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()), 'utf-8'), "email": email, "name": name,"bio": "I am feeling good", "profile_pic_url": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png", "song_ids": []})
             user = list(collection.find({"email": email}))
             session["email"] = user[0]["email"]
             session["name"] = user[0]["name"]

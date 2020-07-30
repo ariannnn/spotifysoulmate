@@ -66,7 +66,26 @@
 			<div class="col md-4">
 				<h1 class="h3 mb-3 font-weight-normal">Your Profile</h1>
                 <h1 class="h5 mb-3 font-weight-normal">
-				<p>Email: {{ user["email"] }}</p>
+				
+                <!-- Shows the profile picture. Displays a different thing depending on whether you are changing the pfp or not. -->
+				{% if is_changing_pfp: %}
+				<h1 class="h5 mb-3 font-weight-normal">Profile Picture Image Address:
+					<form method="post" action="/update_database/pfp">
+						<input type = "text" name = "pfp_url" class ="form-control" value = "{{ user['profile_pic_url'] }}">
+						<input type = "submit" class="btn btn-outline-success" value = "Submit">
+                    </form>
+				</h1>
+				{% else: %}
+				<h1 class="h5 mb-3 font-weight-normal">
+                    <div>
+					    <img src="{{ user['profile_pic_url'] }}" alt="Please change your profile picture address to a valid image address." width=100px height=100px/> 
+                        <a href="/change/pfp">
+                    </div>
+					<button type="button" class="btn btn-outline-primary">Change Profile Picture</button></a>
+				</h1>
+				{% endif %}
+                
+                <p>Email: {{ user["email"] }}</p>
                 </h1>
 
 				<!-- Lists out the name. Displays a different thing depending on whether you are changing the name or not. -->

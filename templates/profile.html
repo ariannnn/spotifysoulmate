@@ -176,8 +176,8 @@
 
 
     <div class = "nicetext col-md-6">
-	<!-- make this pretty later -->
 	<h1> {{ name }}'s Profile </h1>
+    <img src = "{{ user_pfp }}" alt = "Invalid image address" width=100px height=100px/>
 	<p><u>Match Percentage:</u> {{ match_percentage }}</p>
 	{% if song_percentage != "": %}
 	<p>{{ song_percentage }} of the match percentage was from your similar song tastes.</p>
