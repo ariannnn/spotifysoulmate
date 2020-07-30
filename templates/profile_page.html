@@ -9,27 +9,29 @@
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-	<link rel ="stylesheet" href = "../static/css/style.css" />
+	<link rel="stylesheet" href="../static/css/style.css" />
 
 	<title>Profile Page</title>
+
 </head>
 
 <body>
 	<nav class="navbar navcolor navbar-expand-lg">
-		<a class="navbar-brand" href="#"><img src={{ url_for('static', filename='Untitled-1.png') }} width="125" /></a>
-			<button class=" navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+		<a class="navbar-brand"
+			href="#"><img src = {{ url_for('static', filename='Untitled-1.png') }} width = "125" /></a>
+			<button class="navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active">
+					<li class="nav-item">
 						<a class="nav-link" href="/overview">Overview</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/soulmates">Find Soulmates</a>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item active">
 						<a class="nav-link" href="/help">Help</a>
 					</li>
 					<li class="nav-item active">
@@ -37,57 +39,80 @@
 					</li>
 
 				</ul>
-				<!-- <a href="../index" class="btn btn-outline-success ml-lg-4 my-sm-2">Log Out</a> -->
 				<form method="get" action="/sign_in">
-					<input type="submit" value="Log Out" class="btn btn-outline-success ml-lg-4 my-sm-2" />
+					<input type = "submit" value = "Log Out" class = "btn btn-outline-success ml-lg-4 my-sm-2"/>
             </form>
 			</div>
 	</nav>
 
-    <p>Email: {{ user["email"] }}</p>
+	<div class="m-2">
+        <div class="text-center mb-4">
+		<div class="row">
+            <div class="col md-4"> </div>
+			<div class="col md-4">
+				<h1 class="h3 mb-3 font-weight-normal">Your Profile</h1>
+                <h1 class="h5 mb-3 font-weight-normal">
+				<p>Email: {{ user["email"] }}</p>
+                </h1>
 
-    <!-- Lists out the name. Displays a different thing depending on whether you are changing the name or not. -->
-    {% if is_changing_name: %}
-        <p>Name: 
-            <form method = "post" action = "/update_database/name">
-                <input type = "text" name = "name" value = "{{ user['name'] }}">
-                <input type = "submit" value = "Submit">
-            </form>
-        </p>
-    {% else: %}
-        <p>Name: {{ user["name"] }} - <a href = "/change/name">Edit</a></p>
-    {% endif %}
-    
-    <!-- Lists out the bio. Displays a different thing depending on whether you are changing the bio or not. -->
-    {% if is_changing_bio: %}
-        <p>Bio: 
-            <form method = "post" action = "/update_database/bio">
-                <input type = "text" name = "bio" value = "{{ user['bio'] }}">
-                <input type = "submit" value = "Submit">
-            </form>
-        </p>
-    {% else: %}
-        <p>Bio: {{ user["bio"] }} - <a href = "/change/bio">Edit</a></p>
-    {% endif %}
+				<!-- Lists out the name. Displays a different thing depending on whether you are changing the name or not. -->
+				{% if is_changing_name: %}
+				<h1 class="h5 mb-3 font-weight-normal">Name:
+					<form method="post" action="/update_database/name">
+						<input type = "text" name = "name" class ="form-control" value = "{{ user['name'] }}">
+						<input type = "submit" class="btn btn-outline-success" value = "Submit">
+                    </form>
+				</h1>
+				{% else: %}
+				<h1 class="h5 mb-3 font-weight-normal">
+                    <div>
+					Name: {{ user["name"] }} <a href="/change/name">
+                    </div>
+					<button type="button" class="btn btn-outline-primary">Edit</button></a>
+				</h1>
+				{% endif %}
 
-    <!-- Displays a different thing depending on whether you are changing the password or not. -->
-    {% if is_changing_pw: %}
-        <form method = "post" action = "/update_database/pw">
-            <input type = "text" name = "old_pw" placeholder = "Enter your old password">
-            <input type = "text" name = "new_pw_1" placeholder = "Enter your new password">
-            <input type = "text" name = "new_pw_2" placeholder = "Confirm password">
-            <input type = "submit" value = "Submit">
-        </form>
-        {% if error_message != "": %}
-            <div class="mb-4">
-                <h1 class="h5 mb-3 font-weight-normal text-danger">{{error_message}}</h1>
+				<!-- Lists out the bio. Displays a different thing depending on whether you are changing the bio or not. -->
+				{% if is_changing_bio: %}
+				<h1 class="h5 mb-3 font-weight-normal">Bio:
+					<form method="post" action="/update_database/bio">
+						<input type = "text" name = "bio" class = "form-control" value = "{{ user['bio'] }}">
+						<input type = "submit" class ="btn btn-outline-success" value = "Submit">
+                    </form>
+				</h1>
+				{% else: %}
+				<h1 class="h5 mb-3 font-weight-normal">
+                    <div>
+					Bio: {{ user["bio"] }}
+                    </div>
+					<a href="/change/bio"><button type="button" class="btn btn-outline-primary">Edit</button></a>
+				</h1>
+				{% endif %}
+
+				<!-- Displays a different thing depending on whether you are changing the password or not. -->
+				{% if is_changing_pw: %}
+				<form method="post" action="/update_database/pw">
+					<input type = "text" name = "old_pw" class = "form-control" placeholder = "Enter your old password">
+					<input type = "text" name = "new_pw_1" class = "form-control" placeholder = "Enter your new password">
+					<input type = "text" name = "new_pw_2" class = "form-control" placeholder = "Confirm password">
+					<input type = "submit" class = "btn btn-outline-success" value = "Submit">
+                </form>
+					{% if error_message != "": %}
+					<div class="mb-4">
+						<h1 class="h5 mb-3 font-weight-normal text-danger">{{error_message}}</h1>
+					</div>
+					{% endif %}
+					{% else: %}
+					<p><a href="/change/pw">Change Password</a></p>
+					{% endif %}
+			</div>
+            <div class="col md-4">
+                
             </div>
-        {% endif %}
-    {% else: %}
-        <p><a href = "/change/pw">Change Password</a></p>
-    {% endif %}
+		</div>
+        </div>
+	</div>
 
-    
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
