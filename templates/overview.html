@@ -155,9 +155,15 @@
 	<br />
 	<!-- Profile Section -->
 	<div class="ml-3" id=profile>
-		<h4>Welcome {{session["name"]}}</h4>
-		<h6>{{session["bio"]}}</h6>
-        <img src = "{{ pfp_url }}" alt = "Invalid profile picture address." width=100px height=100px/>
+        <div class = "row">
+        <img class = "song-card ml-4" src = "{{ pfp_url }}" alt = "Invalid profile picture address." width=100px height=100px/>
+		<h2 class = "ml-2 mt-4"><b>Welcome {{session["name"]}}</b></h2>
+        <br/>
+        </div>
+        <div>
+        <br>
+        <div class = "container ml-1">
+		<h6 "mt-5">{{session["bio"]}}</h6></div>
 
 	</div>
 	<br>
