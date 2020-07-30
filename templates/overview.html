@@ -155,8 +155,6 @@
 	<br />
 	<!-- Profile Section -->
 	<div class="ml-3" id=profile>
-
-
 		<h4>Welcome {{session["name"]}}</h4>
 		<h6>{{session["bio"]}}</h6>
 
@@ -166,7 +164,7 @@
 	<!-- Listing favorite tracks -->
 	<div class="row">
 		<div class="col-md-6 ml-3">
-			<h3 class="ml"> Favorite Songs </h3>
+			<h3 class="ml mb-3"> Favorite Songs </h3>
 			<div class="songlist row">
 				{% for song_dict in list_of_songs %}
 				<div class="col-3 text-center">
@@ -209,7 +207,7 @@
 			<!-- Searchbar Section -->
 			<div class="col-md-5">
 				<p></p>
-				<h3> Add Songs </h3>
+				<h3 class = "ml-4"> Add Songs </h3>
 				<div class="input-group">
 					<div class=" ml-4 p-1 w-100 bg-light rounded shadow-sm">
 						<form method="post" action="/search">

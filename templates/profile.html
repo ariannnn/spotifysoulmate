@@ -176,22 +176,24 @@
 
 
     <div class = "nicetext col-md-6">
-	<h1> {{ name }}'s Profile </h1>
-    <img src = "{{ user_pfp }}" alt = "Invalid image address" width=100px height=100px/>
-	<p><u>Match Percentage:</u> {{ match_percentage }}</p>
+	<div class = "row">
+    <img class ="song-card" src = "{{ user_pfp }}" alt = "Invalid image address" width=100px height=100px/>
+    <h1 class = "ml-3 mt-4"><b> {{ name }}</b></h1>
+    </div>
+	<p class = "mt-3"><b>Match Percentage:</b> {{ match_percentage }}</p>
 	{% if song_percentage != "": %}
 	<p>{{ song_percentage }} of the match percentage was from your similar song tastes.</p>
 	{% endif %}
 
 	{% if artist_percentage != "": %}
-	<p>{{ artist_percentage }} of the match percentage was from your similar artist tastes.</p>
+	<p><i>{{ artist_percentage }} of the match percentage was from your similar artist tastes.</i></p>
 	{% endif %}
 
 	{% if genre_percentage != "": %}
-	<p>{{ genre_percentage }} of the match percentage was from your similar genre tastes.</p>
+	<p><i>{{ genre_percentage }} of the match percentage was from your similar genre tastes.</i></p>
 	{% endif %}
-	<p><u>Email:</u> {{ email }}</p>
-	<p><u>Bio:</u> {{ bio }}</p>
+	<p><b>Email:</b> {{ email }}</p>
+	<p><b>Bio:</b> {{ bio }}</p>
     </div>
     <br/>
     <br>
@@ -231,3 +233,4 @@
 </body>
 
 </html>
+

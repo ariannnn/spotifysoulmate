@@ -11,12 +11,54 @@
 		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 	<link rel="stylesheet" href="../static/css/style.css" />
      <style>
-        a{
-            color:black;
-        }
-        a:hover{
-            color:black;
-        }
+		a {
+			color: black;
+		}
+
+		.navcolor {
+			background-color: white font-family: GTWalsheim;
+
+		}
+
+
+		body {
+			background-color: white;
+			font-family: GTWalsheim;
+
+		}
+
+		.play-hover {
+			position: relative;
+			display: inline-block;
+		}
+
+
+		span.as {
+			width: 50%;
+			font-weight: bold;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.add a {
+			color: #1DB954;
+			opacity: 1;
+		}
+
+		.fa-plus-circle:hover {
+			opacity: 1;
+		}
+
+		.song-card {
+			border-radius: 10px;
+			transition: transform .3s ease;
+		}
+
+		.song-card:hover {
+			transform: scale(1.1);
+			/* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+		}
         @font-face{
         font-family: GTWalsheim;
         src: url(../static/gtwals.ttf);
@@ -29,7 +71,7 @@
 </head>
 
 <body>
-	<nav class="navbar navcolor navbar-expand-lg">
+	<nav class="navbar navcolor navbar-expand-lg shadow-sm">
 		<a class="navbar-brand"
 			href="#"><img src = {{ url_for('static', filename='Untitled-1.png') }} width = "125" /> </a>
 			<button class="navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,26 +110,56 @@
 		<!-- Insert flask code to display soulmate matches and list matching songs/artists -->
 		{% if error_message == "": %}
 		<h4>By Songs</h4>
+        <div class = "row">
 		{% for user in song_matching_users %}
-        <img src = "{{ user['profile_pic_url'] }}" alt = "Invalid profile picture" width=100px height=100px/>
-		<p> <a href="/profile/song_match/{{ user['name'] }}">{{ user["name"] }} </a> </p>
-		<p> - You matched by {{ user["song_percentages"]["match_percentage"] }}</p>
+        <div class = "col-3 text-center">
+            <div class = "play-hover">
+                <a href = "/profile/song_match/{{ user['name'] }}"> 
+                    <img class = "song-card" src = "{{ user['profile_pic_url'] }}" width = 150px height = 150px />
+                </a>
+                <br/>
+		<span class = "as">{{ user["name"] }} </span>
+		<p>You matched by {{ user["song_percentages"]["match_percentage"] }}</p>
+        </div>
+        </div>
 		{% endfor %}
+        </div>
+
 
 		<h4>By Artists</h4>
+        <div class = "row">
 		{% for user in artist_matching_users %}
-        <img src = "{{ user['profile_pic_url'] }}" alt = "Invalid profile picture" width=100px height=100px/>
-		<p> <a href="/profile/artist_match/{{ user['name'] }}">{{ user["name"] }} </a> </p>
-		<p> - You matched by {{ user["artist_percentages"]["match_percentage"] }}</p>
+        <div class = "col-3 text-center">
+            <div class = "play-hover">
+                <a href = "/profile/artist_match/{{ user['name'] }}"> 
+                    <img class = "song-card" src = "{{ user['profile_pic_url'] }}" width = 150px height = 150px />
+                </a>
+                <br/>
+		<span class = "as">{{ user["name"] }} </span>
+		<p>You matched by {{ user["artist_percentages"]["match_percentage"] }}</p>
+        </div>
+        </div>
 		{% endfor %}
+        </div>
 
 		<h4>By Genres</h4>
+        <div class = "row">
 		{% for user in genre_matching_users %}
-        <img src = "{{ user['profile_pic_url'] }}" alt = "Invalid profile picture" width=100px height=100px/>
-		<p> <a href="/profile/genre_match/{{ user['name'] }}">{{ user["name"] }} </a> </p>
-		<p> - You matched by {{ user["genre_percentages"]["match_percentage"] }}</p>
+        <div class = "col-3 text-center">
+            <div class = "play-hover">
+                <a href = "/profile/genre_match/{{ user['name'] }}"> 
+                    <img class = "song-card" src = "{{ user['profile_pic_url'] }}" width = 150px height = 150px />
+                </a>
+                <br/>
+		<span class = "as">{{ user["name"] }} </span>
+		<p>You matched by {{ user["genre_percentages"]["match_percentage"] }}</p>
+        </div>
+        </div>
 		{% endfor %}
+        </div>
+
 		{% endif %}
+        
 	</div>
     </div>
 	<!-- Optional JavaScript -->
@@ -104,3 +176,8 @@
 </body>
 
 </html>
+
+
+
+
+
