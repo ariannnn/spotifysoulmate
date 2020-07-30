@@ -219,7 +219,9 @@
 				<br>
 				<!-- Listing songs searched -->
 				<div class="ml-2">
-					<h3> Songs Searched </h3>
+                    {% if is_searching_songs: %}
+					    <h3> Songs Searched </h3>
+                    {% endif %}
 					<div class=row>
 						{% for song_dict in songs_found %}
 						<!-- <div class = "col-4 text-center">

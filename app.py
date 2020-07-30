@@ -68,7 +68,7 @@ def overview():
         user = list(collection.find({"email": session["email"]}))[0]
         session["song_ids"] = user["song_ids"]
         list_of_songs = model.id_to_song(session["song_ids"]) #gives a list of dictionaries
-        return render_template("overview.html", list_of_songs = list_of_songs)
+        return render_template("overview.html", list_of_songs = list_of_songs, is_searching_songs = False)
 
 @app.route('/soulmates')
 def soulmates():
@@ -300,7 +300,7 @@ def user_signin():
             session["bio"] = user[0]["bio"]
             session["song_ids"] = user[0]["song_ids"]
             list_of_songs = model.id_to_song(session["song_ids"]) #gives a list of dictionaries
-            return render_template("overview.html", list_of_songs = list_of_songs)
+            return render_template("overview.html", list_of_songs = list_of_songs, is_searching_songs = False)
         else:
             error_message = "Invalid email or password."
             return render_template("login.html", error_message = error_message)
@@ -325,7 +325,7 @@ def store_users(): #this is the route for how the user creates an account
             session["bio"] = user[0]["bio"]
             session["song_ids"] = user[0]["song_ids"]
             list_of_songs = model.id_to_song(session["song_ids"])
-            return render_template("overview.html", list_of_songs = list_of_songs)
+            return render_template("overview.html", list_of_songs = list_of_songs, is_searching_songs = False)
         else:
             error_message = "This email is already being used by an account."
             return render_template("signup.html", error_message = error_message)
@@ -354,10 +354,10 @@ def search():
                 error_message = "No songs found"
 
             list_of_songs = model.id_to_song(session["song_ids"])
-            return render_template("overview.html", songs_found = songs_found, list_of_songs = list_of_songs, error_message = error_message)
+            return render_template("overview.html", songs_found = songs_found, list_of_songs = list_of_songs, error_message = error_message, is_searching_songs = True)
         else:
             list_of_songs = model.id_to_song(session["song_ids"])
-            return render_template("overview.html", list_of_songs = list_of_songs, error_message = error_message)
+            return render_template("overview.html", list_of_songs = list_of_songs, error_message = error_message, is_searching_songs = False)
 
 @app.route("/addsong/<song_id>")
 def addsong(song_id):
@@ -371,7 +371,7 @@ def addsong(song_id):
             collection.update({"email": session["email"]}, {"$push": {"song_ids": song_id} })
             session["song_ids"].append(song_id)
         list_of_songs = model.id_to_song(session["song_ids"])
-        return render_template("overview.html", list_of_songs = list_of_songs)
+        return render_template("overview.html", list_of_songs = list_of_songs, is_searching_songs = False)
 
 @app.route("/removesong/<song_id>")
 def removesong(song_id):
@@ -385,4 +385,4 @@ def removesong(song_id):
         songs = user["song_ids"]
         session["song_ids"] = songs
         list_of_songs = model.id_to_song(session["song_ids"])
-        return render_template("overview.html", list_of_songs = list_of_songs)
+        return render_template("overview.html", list_of_songs = list_of_songs, is_searching_songs = False)
