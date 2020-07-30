@@ -93,8 +93,8 @@
 	{% endif %}
 	<p><u>Email:</u> {{ email }}</p>
 	<p><u>Bio:</u> {{ bio }}</p>
-	<p><u>Songs: </u></p>
-	{% for song in list_of_songs %}
+	<p><u>Songs in Common: </u></p>
+	{% for song in list_of_common_songs %}
 	<!-- display the song's artist and genre and album cover -->
 	<p>{{ song["track_name"] }} by {{ song["track_artists"][0][0] }}</p>
 	<p> Genres:
