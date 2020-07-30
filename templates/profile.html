@@ -12,12 +12,16 @@
 		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 	<link rel="stylesheet" href="../static/css/style.css" />
     <style>
+        @font-face{
+        font-family: GTWalsheim;
+        src: url(../static/gtwals.ttf);
+   }
        	a {
 			color: black;
 		}
 
 		.navcolor {
-			background-color: white font-family: sans-serif;
+			background-color: white font-family: GTWalsheim;
 
 		}
 
@@ -29,7 +33,7 @@
         }
 		body {
 			background-color: white;
-			font-family: sans-serif;
+			font-family: GTWalsheim;
 
 		}
 
@@ -97,6 +101,7 @@
 			transform: scale(1.1);
 			/* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 		}
+
         </style>
 
 	<title>{{ name }}'s Profile</title>

@@ -13,12 +13,16 @@
 		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
 	<style>
+        @font-face{
+        font-family: GTWalsheim;
+        src: url(../static/gtwals.ttf);
+        }
 		a {
 			color: black;
 		}
 
 		.navcolor {
-			background-color: white font-family: sans-serif;
+			background-color: white font-family: GTWalsheim;
 
 		}
 
@@ -28,7 +32,7 @@
 
 		body {
 			background-color: white;
-			font-family: sans-serif;
+			font-family: GTWalsheim;
 
 		}
 
@@ -120,7 +124,7 @@
 </head>
 
 <body>
-	<nav class="navbar navcolor navbar-expand-lg">
+	<nav class="navbar navcolor navbar-expand-lg shadow-sm">
 		<a class="navbar-brand" href="#"><img src={{ url_for('static', filename='Untitled-1.png') }} width="125" /></a>
 			<button class=" navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
