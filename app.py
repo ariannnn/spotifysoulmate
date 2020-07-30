@@ -129,7 +129,7 @@ def profile_song_match(name):
     else:
         collection = mongo.db.profile
         user_being_searched = collection.find({"name": name})[0]
-        email = user_being_searched["email"]
+        user_being_searched_email = user_being_searched["email"]
         bio = user_being_searched["bio"]
         song_ids = user_being_searched["song_ids"]
         match_percentage = user_being_searched["song_percentages"]["match_percentage"]
@@ -137,7 +137,7 @@ def profile_song_match(name):
         artist_percentage = user_being_searched["song_percentages"]["artist_percentage"]
         genre_percentage = user_being_searched["song_percentages"]["genre_percentage"]
         list_of_songs = model.id_to_song(song_ids)
-        return render_template("profile.html", name = name, email = email, bio = bio, list_of_songs = list_of_songs, match_percentage = match_percentage, song_percentage = song_percentage, artist_percentage = artist_percentage, genre_percentage = genre_percentage)
+        return render_template("profile.html", name = name, email = user_being_searched_email, bio = bio, list_of_songs = list_of_songs, match_percentage = match_percentage, song_percentage = song_percentage, artist_percentage = artist_percentage, genre_percentage = genre_percentage)
 
 @app.route('/profile/artist_match/<name>')
 def profile_artist_match(name):
@@ -147,14 +147,14 @@ def profile_artist_match(name):
     else:
         collection = mongo.db.profile
         user_being_searched = collection.find({"name": name})[0]
-        email = user_being_searched["email"]
+        user_being_searched_email = user_being_searched["email"]
         bio = user_being_searched["bio"]
         song_ids = user_being_searched["song_ids"]
         match_percentage = user_being_searched["artist_percentages"]["match_percentage"]
         artist_percentage = user_being_searched["artist_percentages"]["artist_percentage"]
         genre_percentage = user_being_searched["artist_percentages"]["genre_percentage"]
         list_of_songs = model.id_to_song(song_ids)
-        return render_template("profile.html", name = name, email = email, bio = bio, list_of_songs = list_of_songs, match_percentage = match_percentage, song_percentage = "", artist_percentage = artist_percentage, genre_percentage = genre_percentage)
+        return render_template("profile.html", name = name, email = user_being_searched_email, bio = bio, list_of_songs = list_of_songs, match_percentage = match_percentage, song_percentage = "", artist_percentage = artist_percentage, genre_percentage = genre_percentage)
 
 @app.route('/profile/genre_match/<name>')
 def profile_genre_match(name):
@@ -164,13 +164,13 @@ def profile_genre_match(name):
     else:
         collection = mongo.db.profile
         user_being_searched = collection.find({"name": name})[0]
-        email = user_being_searched["email"]
+        user_being_searched_email = user_being_searched["email"]
         bio = user_being_searched["bio"]
         song_ids = user_being_searched["song_ids"]
         match_percentage = user_being_searched["genre_percentages"]["match_percentage"]
         genre_percentage = user_being_searched["genre_percentages"]["genre_percentage"]
         list_of_songs = model.id_to_song(song_ids)
-        return render_template("profile.html", name = name, email = email, bio = bio, list_of_songs = list_of_songs, match_percentage = match_percentage, song_percentage = "", artist_percentage = "", genre_percentage = genre_percentage)
+        return render_template("profile.html", name = name, email = user_being_searched_email, bio = bio, list_of_songs = list_of_songs, match_percentage = match_percentage, song_percentage = "", artist_percentage = "", genre_percentage = genre_percentage)
 
 @app.route('/help')
 def help():
